@@ -1,0 +1,15 @@
+{
+  "name": "auth.hyprtxt.com",
+  "version": "1.0.0",
+  "description": "HAPI Google Auth Example",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Taylor Young (taylor@hyprtxt.com)",
+  "license": "MIT",
+  "dependencies": {
+    "bell": "^5.1.0",
+    "hapi": "^9.3.1"
+  }
+}
