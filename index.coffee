@@ -105,6 +105,15 @@ server.route
       reply.view 'login', data
       return
 
+server.route
+  method: 'GET'
+  path: '/logout'
+  config:
+    auth: 'session'
+    handler: ( request, reply ) ->
+      request.auth.session.clear()
+      return reply.redirect('/login')
+
 # Static
 server.route
   method: 'GET'
