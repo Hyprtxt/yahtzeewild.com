@@ -9,8 +9,13 @@ server.connection
   host: 'localhost'
   port: 8000
 
+io = require('socket.io')(server.listener)
+
+io.on 'connection', ( socket ) ->
+  socket.emit 'Hi there!'
+
 # Register bell with the server
-server.register require('bell'), (err) ->
+server.register require('bell'), ( err ) ->
   server.auth.strategy 'twitter', 'bell',
     provider: 'twitter'
     password: config.cookie.password
@@ -19,12 +24,22 @@ server.register require('bell'), (err) ->
     isSecure: false
   return
 
-# Add the route
+server.register require('vision'), ( err ) ->
+  server.views
+    engines:
+      jade: require('jade')
+    path: __dirname + '/views'
+    compileOptions:
+      pretty: true
+  return
+
+# Routes!
 server.route
   method: 'GET'
   path: '/'
   handler: (request, reply) ->
-    reply 'hello world'
+    data = require('./config/views')
+    reply.view 'index', data
     return
 
 server.route
