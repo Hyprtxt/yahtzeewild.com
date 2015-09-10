@@ -39,6 +39,12 @@ server.register [
         events:
           log: '*'
           response: '*'
+      ,
+        reporter: require('good-file')
+        events:
+          log: '*'
+          response: '*'
+        config: Path.join( __dirname, 'log', 'good.log' )
       ]
 ], ( err ) ->
   if (err)
