@@ -1,5 +1,3 @@
-var Hoek = require("hoek");
-var Routes = require("./routes");
 var Providers = require("./config").get('/provider');
 
 exports.register = function(plugin, options, next) {
@@ -14,19 +12,20 @@ exports.register = function(plugin, options, next) {
     plugin.bind({
         cache: plugin.app.cache
     });
-    
-    //Add Multiple strategies here and we have used confidence to pick up the configuration.
-    plugin.auth.strategy('facebook', 'bell', Providers.facebook);
 
-    plugin.auth.strategy('google', 'bell', Providers.google);
+    //Add Multiple strategies here and we have used confidence to pick up the configuration.
+    plugin.auth.strategy('twitter', 'bell', Providers.twitter);
+
+    // plugin.auth.strategy('google', 'bell', Providers.google);
 
     plugin.auth.strategy('session', 'cookie', {
         password: 'hapiauth', // give any string you think is right password to encrypted
         cookie: 'sid-hapiauth', // cookie name to use, usually sid-<appname>
-        redirectTo: '/',
+        redirectTo: '/login',
         isSecure: false,
-        validateFunc: function(session, callback) {
-            cache.get(session.sid, function(err, cached) {
+        validateFunc: function (request, session, callback) {
+
+            cache.get(session.sid, function (err, cached) {
 
                 if (err) {
                     return callback(err, false);
@@ -36,12 +35,12 @@ exports.register = function(plugin, options, next) {
                     return callback(null, false);
                 }
 
-                return callback(null, true, cached.item.account);
+                return callback(null, true, cached.account);
             });
         }
     });
     //Added a separate file for just routes.
-    plugin.route(Routes);
+    plugin.route( require('./routes') );
     next();
 };
 

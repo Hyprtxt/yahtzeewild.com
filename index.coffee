@@ -20,11 +20,17 @@ io.on 'connection', ( socket ) ->
   socket.on 'client_event', ( data ) ->
     console.log data
 
-server.register([
-  { register: require('inert') }
-  { register: require('bell') }
-  { register: require('vision') }
-  {
+server.register [
+    register: require('inert')
+  ,
+    register: require('bell')
+  ,
+    register: require('vision')
+  ,
+    register: require('hapi-auth-cookie')
+  ,
+    register: require('./plugins/auth')
+  ,
     register: require('good')
     options:
       opsInterval: 1000
@@ -34,19 +40,10 @@ server.register([
           log: '*'
           response: '*'
       ]
-  }
 ], ( err ) ->
   if (err)
     throw err
   return
-)
-
-server.auth.strategy 'twitter', 'bell',
-  provider: 'twitter'
-  password: config.cookie.password
-  clientId: config.twitter.clientId
-  clientSecret:  config.twitter.clientSecret
-  isSecure: false
 
 server.views
   engines:
@@ -69,10 +66,32 @@ server.views
 server.route
   method: 'GET'
   path: '/'
-  handler: (request, reply) ->
-    data = require('./config/views')
-    reply.view 'index', data
-    return
+  config:
+    auth: 'session'
+    handler: (request, reply) ->
+      data = require('./config/views')
+      console.log request.auth
+      data.auth = request.auth
+      data.session = request.session
+      reply.view 'index', data
+      return
+
+server.route
+  method: 'GET'
+  path: '/login'
+  config:
+    auth:
+      strategy: 'session'
+      mode: 'try'
+    plugins:
+      'hapi-auth-cookie':
+        redirectTo: false
+    handler: (request, reply) ->
+      data = require('./config/views')
+      # console.log request.auth
+      data.auth = request.auth
+      reply.view 'login', data
+      return
 
 # Static
 server.route
@@ -83,21 +102,6 @@ server.route
       path: '.'
       redirectToSlash: true
       listing: true
-
-# Twitter Login
-server.route
-  method: [ 'GET', 'POST' ]
-  path: config.twitter.callbackURL
-  config:
-    auth: 'twitter'
-    handler: (request, reply) ->
-      console.log request.auth
-      # Perform any account lookup or registration, setup local session,
-      # and redirect to the application. The third-party credentials are
-      # stored in request.auth.credentials. Any query parameters from
-      # the initial request are passed back via request.auth.credentials.query.
-      reply.redirect '/'
-      return
 
 # Start the server
 server.start ->
