@@ -1,13 +1,5 @@
 Config = require('../../config').get('/provider')
 
-_validateAuth = ( request, session, callback ) ->
-  cache.get session.sid, ( err, cached ) ->
-    if( err )
-      return callback err, false
-    if( !cached )
-      return callback null, false
-    return callback null, true, cached.account
-
 _sessionHandler = ( request, reply ) ->
   account = request.auth.credentials
   sid = account.profile.id
@@ -36,7 +28,13 @@ exports.register = ( plugin, options, next ) ->
     cookie: 'sid-auth'
     redirectTo: '/login'
     isSecure: false
-    validateFunc: _validateAuth
+    validateFunc: ( request, session, callback ) ->
+      cache.get session.sid, ( err, cached ) ->
+        if( err )
+          return callback err, false
+        if( !cached )
+          return callback null, false
+        return callback null, true, cached.account
 
   plugin.route
     path: Config.route.twitter.callbackURL
