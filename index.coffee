@@ -1,9 +1,13 @@
 Hapi = require('hapi')
-
+Path = require('path')
 config = require('./config/secret')
 
-# Create a server with a host and port
-server = new (Hapi.Server)
+server = new Hapi.Server(
+  connections:
+    routes:
+      files:
+        relativeTo: Path.join( __dirname, 'static' )
+)
 
 server.connection
   host: 'localhost'
@@ -12,28 +16,56 @@ server.connection
 io = require('socket.io')(server.listener)
 
 io.on 'connection', ( socket ) ->
-  socket.emit 'Hi there!'
+  socket.emit 'news', hello: 'world'
+  socket.on 'client_event', ( data ) ->
+    console.log data
 
-# Register bell with the server
-server.register require('bell'), ( err ) ->
-  server.auth.strategy 'twitter', 'bell',
-    provider: 'twitter'
-    password: config.cookie.password
-    clientId: config.twitter.clientId
-    clientSecret:  config.twitter.clientSecret
-    isSecure: false
+server.register([
+  { register: require('inert') }
+  { register: require('bell') }
+  { register: require('vision') }
+  {
+    register: require('good')
+    options:
+      opsInterval: 1000
+      reporters:[
+        reporter: require('good-console')
+        events:
+          log: '*'
+          response: '*'
+      ]
+  }
+], ( err ) ->
+  if (err)
+    throw err
   return
+)
 
-server.register require('vision'), ( err ) ->
-  server.views
-    engines:
-      jade: require('jade')
-    path: __dirname + '/views'
-    compileOptions:
-      pretty: true
-  return
+server.auth.strategy 'twitter', 'bell',
+  provider: 'twitter'
+  password: config.cookie.password
+  clientId: config.twitter.clientId
+  clientSecret:  config.twitter.clientSecret
+  isSecure: false
 
-# Routes!
+server.views
+  engines:
+    jade: require('jade')
+  path: Path.join( __dirname , 'views' )
+  compileOptions:
+    pretty: true
+
+# Error Routing
+# server.ext('onPreResponse', ( request, reply ) ->
+#   if !request.response.isBoom
+#     reply.continue();
+#   else
+#     reply.view('error', request.response)
+# )
+
+# Routes
+
+# Homepage
 server.route
   method: 'GET'
   path: '/'
@@ -42,6 +74,17 @@ server.route
     reply.view 'index', data
     return
 
+# Static
+server.route
+  method: 'GET'
+  path: '/{param*}'
+  handler:
+    directory:
+      path: '.'
+      redirectToSlash: true
+      listing: true
+
+# Twitter Login
 server.route
   method: [ 'GET', 'POST' ]
   path: config.twitter.callbackURL

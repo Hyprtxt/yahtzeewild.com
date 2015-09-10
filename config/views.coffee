@@ -1,9 +1,9 @@
 module.exports =
   javascripts: [
-    'public/js/script.js'
-    
+    '/socket.io/socket.io.js'
+    '/js/script.js'
   ]
   stylesheets: [
-    'public/css/style.css'
+    '/css/style.css'
   ]
   timestamp: new Date()
