@@ -21,16 +21,22 @@ io.on 'connection', ( socket ) ->
     console.log data
 
 server.register [
+  # static file serving
     register: require('inert')
   ,
-    register: require('bell')
-  ,
+  # view serving
     register: require('vision')
   ,
+  # social login
+    register: require('bell')
+  ,
+  # sessions
     register: require('hapi-auth-cookie')
   ,
+  # combines social login with sessions
     register: require('./plugins/auth')
   ,
+  # event logging
     register: require('good')
     options:
       opsInterval: 1000
