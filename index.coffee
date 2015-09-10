@@ -35,14 +35,6 @@ server.register([
           response: '*'
       ]
   }
-  {
-    register: require('yar')
-    options:
-      storeBlank: false,
-      cookieOptions:
-        password: 'password',
-        isSecure: false
-  }
 ], ( err ) ->
   if (err)
     throw err
