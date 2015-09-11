@@ -18,9 +18,12 @@ server.connection
 io = require('socket.io')(server.listener)
 
 io.on 'connection', ( socket ) ->
-  socket.emit 'news', hello: 'world'
-  socket.on 'client_event', ( data ) ->
-    console.log data
+  socket
+    .emit 'news', hello: 'world'
+    .on 'client_event', ( data ) ->
+      console.log data
+      return
+    return
 
 server.register [
   # static file serving
@@ -65,6 +68,7 @@ server.views
   path: Path.join( __dirname , 'views' )
   compileOptions:
     pretty: true
+  isCached: false # For Dev Purposes
 
 # Error Routing
 # server.ext('onPreResponse', ( request, reply ) ->
@@ -82,11 +86,11 @@ server.route
   path: '/'
   config:
     auth: 'session'
-    handler: (request, reply) ->
+    handler: ( request, reply ) ->
       data = require('./config/views')
-      console.log request.auth
+      request.auth.session.set( 'things', {stuff:'for the session'})
       data.auth = request.auth
-      data.session = request.session
+      data.session = request.auth.artifacts
       reply.view 'index', data
       return
 
@@ -100,10 +104,11 @@ server.route
     plugins:
       'hapi-auth-cookie':
         redirectTo: false
-    handler: (request, reply) ->
+    handler: ( request, reply ) ->
       data = require('./config/views')
       # console.log request.auth
       data.auth = request.auth
+      data.session = request.auth.artifacts
       reply.view 'login', data
       return
 

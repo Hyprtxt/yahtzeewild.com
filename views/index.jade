@@ -1,10 +1,10 @@
-extends ./layout.jade
+extends ./layouts/layout.jade
 
 block content
   .container
     .row
       .col-sm-12
+        h2 Welcome #{auth.credentials.profile.username}
         p Hello World
         p This is the homepage, which means you are logged in
-        pre=JSON.stringify( auth )
-        pre=JSON.stringify( session )
+        //- pre=JSON.stringify( auth, null, 2 )
