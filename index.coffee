@@ -36,15 +36,6 @@ server.register [
   # combines social login with sessions
     register: require('./plugins/auth')
   ,
-  # SASS compilation
-    register: require('hapi-sass')
-    options:
-      src: Path.join( __dirname, 'styles' )
-      dest: Path.join( __dirname, 'static_generated' )
-      routePath: '/css/{file}.css'
-      srcExtension: 'sass'
-      debug: true
-  ,
   # event logging
     register: require('good')
     options:
