@@ -1,6 +1,5 @@
 Hapi = require('hapi')
 Path = require('path')
-config = require('./config/secret')
 
 server = new Hapi.Server(
   connections:
@@ -88,7 +87,7 @@ server.route
     auth: 'session'
     handler: ( request, reply ) ->
       data = require('./config/views')
-      request.auth.session.set( 'things', {stuff:'for the session'})
+      # request.auth.session.set( 'things', {stuff:'for the session'})
       data.auth = request.auth
       data.session = request.auth.artifacts
       reply.view 'index', data
