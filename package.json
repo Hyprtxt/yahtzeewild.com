@@ -4,7 +4,8 @@
   "description": "HAPI Google Auth Example",
   "main": "index.coffee",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start" : "nodemon"
   },
   "author": "Taylor Young (taylor@hyprtxt.com)",
   "license": "MIT",

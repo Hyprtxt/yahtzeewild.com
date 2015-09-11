@@ -1,16 +1,16 @@
-doctype html
-html
-  include ./head.jade
-  body
-    .container
-      .row
-        .col-sm-12
-          p Hello World
-          p 
-            a(href='/login/twitter') Login with Twitter
-          p Logged In? 
-            if auth.isAuthenticated
-              span You are logged in!
-            else
-              span You are NOT welcome, yet.
-    include ./foot.jade
+extends ./layout.jade
+
+block content
+  .container
+    .row
+      .col-sm-12
+        p Hello World
+        p 
+          a.btn.btn-info(href='/login/twitter') Login with Twitter
+        p 
+          if auth.isAuthenticated
+            span You are logged in!
+          else
+            span You are NOT welcome, yet. Please login.
+
+block foot

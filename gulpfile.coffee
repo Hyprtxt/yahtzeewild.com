@@ -14,6 +14,7 @@ gulp.task 'help', taskListing
 
 gulp.task 'clean', ( cb ) ->
   rimraf './static_generated', cb
+  return
 
 gulp.task 'sass', ->
   gulp.src './src/sass/**/*.sass'
@@ -26,6 +27,7 @@ gulp.task 'sass', ->
     .pipe sourcemaps.write '../map' # , sourceRoot: __dirname + './src'
     .pipe gulp.dest './static_generated/css'
     .pipe livereload()
+  return
 
 gulp.task 'coffee', ->
   gulp.src './src/coffee/**/*.coffee'
@@ -36,6 +38,13 @@ gulp.task 'coffee', ->
     .pipe sourcemaps.write '../map' # , sourceRoot: __dirname + './src'
     .pipe gulp.dest './static_generated/js'
     .pipe livereload()
+  return
+
+gulp.task 'reload', ->
+  # This task only works when the livereload server is up
+  # Jade is compiled by Hapi, so a reload is all we need
+  livereload.reload()
+  return
 
 gulp.task 'watch', ->
   livereload.listen
@@ -43,3 +52,5 @@ gulp.task 'watch', ->
     start: true
   gulp.watch './src/sass/**/*.sass', ['sass']
   gulp.watch './src/coffee/**/*.coffee', ['coffee']
+  gulp.watch './views/**/*.jade', ['reload']
+  return

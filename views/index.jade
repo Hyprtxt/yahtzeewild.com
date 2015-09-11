@@ -1,12 +1,10 @@
-doctype html
-html
-  include ./head.jade
-  body
-    .container
-      .row
-        .col-sm-12
-          p Hello World
-          p This is the homepage, which means you are logged in
-          pre=JSON.stringify( auth )
-          pre=JSON.stringify( session )
-    include ./foot.jade
+extends ./layout.jade
+
+block content
+  .container
+    .row
+      .col-sm-12
+        p Hello World
+        p This is the homepage, which means you are logged in
+        pre=JSON.stringify( auth )
+        pre=JSON.stringify( session )
