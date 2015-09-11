@@ -1,4 +1,6 @@
-Config = require('../../config').get('/provider')
+SocialAuthConfig = require('../../config/').get('/socialAuth')
+
+console.log SocialAuthConfig
 
 exports.register = ( plugin, options, next ) ->
   cache = plugin.cache
@@ -30,17 +32,17 @@ exports.register = ( plugin, options, next ) ->
         'sid': account
       return reply.redirect '/'
 
-  plugin.auth.strategy 'twitter', 'bell', Config.twitter
+  plugin.auth.strategy 'twitter', 'bell', SocialAuthConfig.twitter
 
   plugin.auth.strategy 'session', 'cookie',
-    password: Config.cookie.password
+    password: SocialAuthConfig.cookie.password
     cookie: 'sid-auth'
     redirectTo: '/login'
     isSecure: false
     validateFunc: _validateFunc
 
   plugin.route
-    path: Config.route.twitter.callbackURL
+    path: SocialAuthConfig.route.twitter.callbackURL
     method: 'GET'
     config:
       auth: 'twitter'
