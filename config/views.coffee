@@ -1,16 +1,9 @@
+Path = require('path')
+
 module.exports =
-  javascripts: [
-    '/socket.io/socket.io.js'
-    '/js/script.js'
-  ]
-  stylesheets: [
-    '/css/style.css'
-  ]
-  navbarBrand:
-    title: 'Hyprtxt'
-    link: '/'
-  navigation: [
-    title: 'Logout'
-    link: '/logout'
-  ]
-  timestamp: new Date()
+  engines:
+    jade: require('jade')
+  path: Path.join( __dirname , '../views' )
+  compileOptions:
+    pretty: true
+  isCached: false # For Dev Purposes

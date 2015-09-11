@@ -1,83 +1,27 @@
+# modules
 Hapi = require('hapi')
 Path = require('path')
 
-server = new Hapi.Server(
-  connections:
-    routes:
-      files:
-        relativeTo: Path.join( __dirname, 'static' )
-      files:
-        relativeTo: Path.join( __dirname, 'static_generated' )
-)
+# functions
+setupTmp = require('./functions/setupTmp')
+throwErr = require('./functions/throwErr')
 
-server.connection
-  host: 'localhost'
-  port: 8000
+# server
+server = new Hapi.Server require('./config/server')
 
-io = require('socket.io')(server.listener)
+server.connection require('./config/connection')
 
-io.on 'connection', ( socket ) ->
-  socket
-    .emit 'news', hello: 'world'
-    .on 'client_event', ( data ) ->
-      console.log data
-      return
-    return
+setupTmp()
 
-server.register [
-  # static file serving
-    register: require('inert')
-  ,
-  # view serving
-    register: require('vision')
-  ,
-  # social login
-    register: require('bell')
-  ,
-  # sessions
-    register: require('hapi-auth-cookie')
-  ,
-  # combines social login with sessions
-    register: require('./plugins/auth')
-  ,
-  # event logging
-    register: require('good')
-    options:
-      opsInterval: 1000
-      reporters:[
-        reporter: require('good-console')
-        events:
-          log: '*'
-          response: '*'
-      ,
-        reporter: require('good-file')
-        events:
-          log: '*'
-          response: '*'
-        config: Path.join( __dirname, 'log', 'good.log' )
-      ]
-], ( err ) ->
-  if (err)
-    throw err
-  return
+server.register require('./config/plugins'), throwErr
 
-server.views
-  engines:
-    jade: require('jade')
-  path: Path.join( __dirname , 'views' )
-  compileOptions:
-    pretty: true
-  isCached: false # For Dev Purposes
+server.views require('./config/views')
 
-# Error Routing
-# server.ext('onPreResponse', ( request, reply ) ->
-#   if !request.response.isBoom
-#     reply.continue();
-#   else
-#     reply.view('error', request.response)
-# )
-
-# Routes
+jadeRouteSetup = ( request, reply ) ->
+  request.pre = require './config/frontend'
+  request.pre.auth = request.auth
+  request.pre.session = request.auth.artifacts
+  return reply()
 
 # Homepage
 server.route
@@ -85,12 +29,9 @@ server.route
   path: '/'
   config:
     auth: 'session'
+    pre: [ jadeRouteSetup ]
     handler: ( request, reply ) ->
-      data = require('./config/views')
-      # request.auth.session.set( 'things', {stuff:'for the session'})
-      data.auth = request.auth
-      data.session = request.auth.artifacts
-      reply.view 'index', data
+      reply.view 'index', request.pre
       return
 
 server.route
@@ -103,12 +44,9 @@ server.route
     plugins:
       'hapi-auth-cookie':
         redirectTo: false
+    pre: [ jadeRouteSetup ]
     handler: ( request, reply ) ->
-      data = require('./config/views')
-      # console.log request.auth
-      data.auth = request.auth
-      data.session = request.auth.artifacts
-      reply.view 'login', data
+      reply.view 'login', request.pre
       return
 
 server.route

@@ -1,13 +1,13 @@
-SocialAuthConfig = require('../../config/').get('/socialAuth')
+SocialAuthConfig = require('../config/').get('/socialAuth')
 
-exports.register = ( plugin, options, next ) ->
-  cache = plugin.cache
+exports.register = ( server, options, next ) ->
+  cache = server.cache
     expiresIn: 1 * 24 * 3600 * 1000 # 1 day
 
-  plugin.app.cache = cache
+  server.app.cache = cache
 
-  plugin.bind
-    cache: plugin.app.cache
+  server.bind
+    cache: server.app.cache
 
   _validateFunc = ( request, session, callback ) ->
     cache.get session.sid, ( err, value, cached, log ) ->
@@ -30,16 +30,16 @@ exports.register = ( plugin, options, next ) ->
         'sid': sid
       return reply.redirect '/'
 
-  plugin.auth.strategy 'twitter', 'bell', SocialAuthConfig.twitter
+  server.auth.strategy 'twitter', 'bell', SocialAuthConfig.twitter
 
-  plugin.auth.strategy 'session', 'cookie',
+  server.auth.strategy 'session', 'cookie',
     password: SocialAuthConfig.cookie.password
     cookie: 'sid-auth'
     redirectTo: '/login'
     isSecure: false
     validateFunc: _validateFunc
 
-  plugin.route
+  server.route
     path: SocialAuthConfig.route.twitter.callbackURL
     method: 'GET'
     config:

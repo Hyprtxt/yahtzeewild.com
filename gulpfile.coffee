@@ -46,7 +46,7 @@ gulp.task 'reload', ->
   livereload.reload()
   return
 
-gulp.task 'watch', ->
+gulp.task 'watch', ['sass', 'coffee'], ->
   livereload.listen
     basePath: './src'
     start: true
