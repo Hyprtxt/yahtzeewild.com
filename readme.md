@@ -8,10 +8,16 @@ Cool stuff!
 
 ### Configuration
 
+** Server Secrets **
+
 1. Rename `./config/_index.coffee` to `./config/index.coffee`
 2. Add your social auth secrets
 
 `./config/index.coffee` is ignored by `git`, don't commit your secrets!
+
+** View Config **
+
+`./config/views.coffee` is passed to all Jade templates. Use it for global front-end configuration values.
 
 # Hyprtxt Gulp
 

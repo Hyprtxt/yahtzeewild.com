@@ -1,5 +1,10 @@
 extends ./layouts/layout.jade
 
+block navigation
+  nav.navbar.navbar-light.bg-faded
+    .container
+      a.navbar-brand(href=navbarBrand.link) #{navbarBrand.title}
+
 block content
   .container
     .row
