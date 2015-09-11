@@ -17,7 +17,7 @@ server.register require('./config/plugins'), throwErr
 
 server.views require('./config/views')
 
-jadeRouteSetup = ( request, reply ) ->
+_jadeRouteSetup = ( request, reply ) ->
   request.pre = require './config/frontend'
   request.pre.auth = request.auth
   request.pre.session = request.auth.artifacts
@@ -29,7 +29,7 @@ server.route
   path: '/'
   config:
     auth: 'session'
-    pre: [ jadeRouteSetup ]
+    pre: [ _jadeRouteSetup ]
     handler: ( request, reply ) ->
       reply.view 'index', request.pre
       return
@@ -44,7 +44,7 @@ server.route
     plugins:
       'hapi-auth-cookie':
         redirectTo: false
-    pre: [ jadeRouteSetup ]
+    pre: [ _jadeRouteSetup ]
     handler: ( request, reply ) ->
       reply.view 'login', request.pre
       return

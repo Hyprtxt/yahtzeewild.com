@@ -1,4 +1,4 @@
-# This is an example file. Add your secrets and rename it to index.coffee
+# This is an example file. Add your secrets and rename it to secret.coffee
 Confidence = require('confidence')
 
 store = new Confidence.Store(

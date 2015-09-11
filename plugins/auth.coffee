@@ -1,4 +1,4 @@
-SocialAuthConfig = require('../config/').get('/socialAuth')
+SocialAuthConfig = require('../config/secret').get('/socialAuth')
 
 exports.register = ( server, options, next ) ->
   cache = server.cache
