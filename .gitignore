@@ -1,4 +1,7 @@
+.DS_Store
 node_modules
+bower_components
 config/secret.coffee
 config/index.coffee
+static_generated
 log
