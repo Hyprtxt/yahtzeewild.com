@@ -1,7 +1,5 @@
 SocialAuthConfig = require('../../config/').get('/socialAuth')
 
-console.log SocialAuthConfig
-
 exports.register = ( plugin, options, next ) ->
   cache = plugin.cache
     expiresIn: 1 * 24 * 3600 * 1000 # 1 day
@@ -29,7 +27,7 @@ exports.register = ( plugin, options, next ) ->
       if( err )
         reply( err )
       request.auth.session.set
-        'sid': account
+        'sid': sid
       return reply.redirect '/'
 
   plugin.auth.strategy 'twitter', 'bell', SocialAuthConfig.twitter

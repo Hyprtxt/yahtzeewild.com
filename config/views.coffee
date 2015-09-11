@@ -12,8 +12,5 @@ module.exports =
   navigation: [
     title: 'Logout'
     link: '/logout'
-  ,
-    title: 'Login'
-    link: '/login'
   ]
   timestamp: new Date()
