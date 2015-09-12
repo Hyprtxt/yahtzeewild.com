@@ -11,7 +11,7 @@ server = new Hapi.Server require('./config/server')
 
 server.connection require('./config/connection')
 
-setupTmp()
+setupTmp() # creates `./logs/good.log` if needed
 
 server.register require('./config/plugins'), throwErr
 
