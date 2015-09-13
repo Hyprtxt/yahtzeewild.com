@@ -15,13 +15,7 @@ setupTmp() # creates `./logs/good.log` if needed
 
 server.register require('./config/plugins'), throwErr
 
-server.views require('./config/views')
-
-_jadeRouteSetup = ( request, reply ) ->
-  request.pre = require './config/frontend'
-  request.pre.auth = request.auth
-  request.pre.session = request.auth.artifacts
-  return reply()
+server.views require('./config/views').get('/viewConfig')
 
 # Homepage
 server.route
@@ -29,7 +23,7 @@ server.route
   path: '/'
   config:
     auth: 'session'
-    pre: [ _jadeRouteSetup ]
+    pre: [ server.plugins['jadeHelper'].jadeRouteSetup ]
     handler: ( request, reply ) ->
       reply.view 'index', request.pre
       return
@@ -38,7 +32,7 @@ server.route
   method: 'GET'
   path: '/db'
   config:
-    pre: [ _jadeRouteSetup ]
+    pre: [ server.plugins['jadeHelper'].jadeRouteSetup ]
     handler: ( request, reply ) ->
       server.plugins['mysql'].query 'SELECT * FROM users', ( rows ) ->
         request.pre.db = rows
@@ -56,7 +50,7 @@ server.route
     plugins:
       'hapi-auth-cookie':
         redirectTo: false
-    pre: [ _jadeRouteSetup ]
+    pre: [ server.plugins['jadeHelper'].jadeRouteSetup ]
     handler: ( request, reply ) ->
       reply.view 'login', request.pre
       return

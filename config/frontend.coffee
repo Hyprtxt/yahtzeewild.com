@@ -1,4 +1,5 @@
 module.exports =
+  title: 'Hypr-Hapi'
   javascripts: [
     '/socket.io/socket.io.js'
     '/js/jquery.min.js'
