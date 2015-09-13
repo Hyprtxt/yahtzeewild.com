@@ -7,7 +7,7 @@ setupTmp = require('./functions/setupTmp')
 throwErr = require('./functions/throwErr')
 
 # server
-server = new Hapi.Server require('./config/server')
+server = new Hapi.Server()
 
 server.connection require('./config/connection')
 
@@ -64,7 +64,10 @@ server.route
   path: '/{param*}'
   handler:
     directory:
-      path: '.'
+      path: [
+        Path.join __dirname, '../static'
+        Path.join __dirname, '../static_generated'
+      ]
       redirectToSlash: true
       listing: true
 
