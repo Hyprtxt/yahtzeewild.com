@@ -1,7 +1,7 @@
 # This is an example file. Add your secrets and rename it to secret.coffee
 Confidence = require('confidence')
 
-store = new Confidence.Store(
+store = new Confidence.Store
   socialAuth:
     $filter: 'env'
     $base:
@@ -36,7 +36,22 @@ store = new Confidence.Store(
         clientId: ''
         clientSecret: ''
         isSecure: false # Bad Idea, get HTTPS for prodcution
-)
+  mysql:
+    $filter: 'env'
+    production:
+      connectionLimit: 100
+      host: 'localhost'
+      user: ''
+      password: ''
+      database: ''
+      debug: false
+    $default: # for devs
+      connectionLimit: 10
+      host: 'localhost'
+      user: 'root'
+      password: ''
+      database: ''
+      debug: false
 
 criteria =
   # https://docs.npmjs.com/misc/config#production

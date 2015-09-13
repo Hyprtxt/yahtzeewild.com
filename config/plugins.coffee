@@ -15,6 +15,9 @@ module.exports = [
   # sessions
     register: require('hapi-auth-cookie')
   ,
+  # database
+    register: require('../plugins/mysql')
+  ,
   # combines social login with sessions
     register: require('../plugins/auth')
   ,

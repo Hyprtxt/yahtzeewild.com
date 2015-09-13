@@ -36,6 +36,18 @@ server.route
 
 server.route
   method: 'GET'
+  path: '/db'
+  config:
+    pre: [ _jadeRouteSetup ]
+    handler: ( request, reply ) ->
+      server.plugins['mysql'].query 'SELECT * FROM users', ( rows ) ->
+        request.pre.db = rows
+        reply.view 'db', request.pre
+        return
+      return
+
+server.route
+  method: 'GET'
   path: '/login'
   config:
     auth:
