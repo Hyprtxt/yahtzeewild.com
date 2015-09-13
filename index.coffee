@@ -9,7 +9,7 @@ throwErr = require('./functions/throwErr')
 # server
 server = new Hapi.Server()
 
-server.connection require('./config/connection')
+server.connection require('./config/connection').get('/connectionConfig')
 
 setupTmp() # creates `./logs/good.log` if needed
 
