@@ -77,8 +77,8 @@ server.route
   handler:
     directory:
       path: [
-        Path.join __dirname, '../static'
-        Path.join __dirname, '../static_generated'
+        Path.join __dirname, '/static/'
+        Path.join __dirname, '/static_generated/'
       ]
       redirectToSlash: true
       listing: true
