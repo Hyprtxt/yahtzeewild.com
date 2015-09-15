@@ -11,7 +11,11 @@ block content
       .col-sm-12
         p Hello World
         p 
-          a.btn.btn-info(href='/login/twitter') Login with Twitter
+          a.btn.btn-info(href='/login/twitter') Login with 
+            i.fa.fa-twitter
+        p 
+          a.btn.btn-danger(href='/login/google') Login with 
+            i.fa.fa-google
         p 
           if auth.isAuthenticated
             span You are logged in!

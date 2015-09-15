@@ -19,6 +19,8 @@ exports.register = ( server, options, next ) ->
       return callback null, true, cached.item.account
 
   _sessionManagement = ( request, reply ) ->
+    if !request.auth.isAuthenticated
+      return reply('Authentication failed due to: ' + request.auth.error.message);
     account = request.auth.credentials
     sid = account.profile.id
     this.cache.set sid,
@@ -31,10 +33,11 @@ exports.register = ( server, options, next ) ->
       return reply.redirect '/'
 
   server.auth.strategy 'twitter', 'bell', SocialAuthConfig.twitter
+  server.auth.strategy 'google', 'bell', SocialAuthConfig.google
 
   server.auth.strategy 'session', 'cookie',
     password: SocialAuthConfig.cookie.password
-    cookie: 'sid-auth'
+    cookie: 'sid-hapiauth'
     redirectTo: '/login'
     isSecure: false
     validateFunc: _validateFunc
@@ -44,6 +47,13 @@ exports.register = ( server, options, next ) ->
     method: 'GET'
     config:
       auth: 'twitter'
+      handler: _sessionManagement
+
+  server.route
+    path: SocialAuthConfig.route.google.callbackURL
+    method: ['GET', 'POST']
+    config:
+      auth: 'google'
       handler: _sessionManagement
 
   next()
