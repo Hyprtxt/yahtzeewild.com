@@ -33,6 +33,10 @@ gulp.task 'copyjs', ->
   gulp.src './bower_components/jquery/dist/*'
     .pipe gulp.dest './static_generated/js'
 
+gulp.task 'copystyle', ->
+  gulp.src './bower_components/font-awesome/css/*'
+    .pipe gulp.dest './static_generated/css'
+
 gulp.task 'coffee', ->
   gulp.src './src/coffee/**/*.coffee'
     .pipe sourcemaps.init()
@@ -50,7 +54,7 @@ gulp.task 'reload', ->
   livereload.reload()
   return
 
-gulp.task 'watch', ['sass', 'copyjs', 'coffee'], ->
+gulp.task 'watch', ['copystyle', 'sass', 'copyjs', 'coffee'], ->
   livereload.listen
     basePath: './src'
     start: true
