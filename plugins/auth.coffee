@@ -22,7 +22,7 @@ exports.register = ( server, options, next ) ->
     if !request.auth.isAuthenticated
       return reply('Authentication failed due to: ' + request.auth.error.message);
     account = request.auth.credentials
-    sid = account.profile.id
+    sid = '' + account.profile.id
     this.cache.set sid,
       account: account
     , 0, ( err ) ->
