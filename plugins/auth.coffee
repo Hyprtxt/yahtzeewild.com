@@ -25,15 +25,12 @@ exports.register = ( server, options, next ) ->
     sid = '' + account.profile.id
     this.cache.set sid,
       account: account
-    , 0, ( err ) ->
+    , null, ( err ) ->
       if( err )
         reply( err )
       request.auth.session.set
         'sid': sid
       return reply.redirect '/'
-
-  server.auth.strategy 'twitter', 'bell', SocialAuthConfig.twitter
-  server.auth.strategy 'google', 'bell', SocialAuthConfig.google
 
   server.auth.strategy 'session', 'cookie',
     password: SocialAuthConfig.cookie.password
@@ -42,19 +39,19 @@ exports.register = ( server, options, next ) ->
     isSecure: false
     validateFunc: _validateFunc
 
-  server.route
-    path: SocialAuthConfig.route.twitter.callbackURL
-    method: 'GET'
-    config:
-      auth: 'twitter'
-      handler: _sessionManagement
+  for provider of SocialAuthConfig.route
+    config = SocialAuthConfig[provider]
+    config.provider = provider
+    config.password = SocialAuthConfig.cookie.password
 
-  server.route
-    path: SocialAuthConfig.route.google.callbackURL
-    method: ['GET', 'POST']
-    config:
-      auth: 'google'
-      handler: _sessionManagement
+    server.auth.strategy provider, 'bell', config
+
+    server.route
+      path: SocialAuthConfig.route[provider].callbackURL
+      method: 'GET'
+      config:
+        auth: provider
+        handler: _sessionManagement
 
   next()
 

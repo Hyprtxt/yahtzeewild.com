@@ -1,4 +1,3 @@
-# This is an example file. Add your secrets and rename it to secret.coffee
 Confidence = require('confidence')
 
 store = new Confidence.Store
@@ -6,18 +5,16 @@ store = new Confidence.Store
     $filter: 'env'
     $base:
       cookie:
-        password: 'hapiauth0'
+        password: 'hapiauth'
       route:
         twitter:
           callbackURL: '/login/twitter'
         google:
           callbackURL: '/login/google'
-      twitter:
-        provider: 'twitter'
-        password: 'hapiauth1'
-      google:
-        provider: 'google'
-        password: 'hapiauth2'
+        github:
+          callbackURL: '/login/github'
+        facebook:
+          callbackURL: '/login/facebook'
     production:
       twitter:
         clientId: ''
@@ -27,12 +24,28 @@ store = new Confidence.Store
         clientId: ''
         clientSecret: ''
         isSecure: true
+      github:
+        clientId: ''
+        clientSecret: ''
+        isSecure: true
+      facebook:
+        clientId: ''
+        clientSecret: ''
+        isSecure: true
     $default: # for devs
       twitter:
         clientId: ''
         clientSecret: ''
         isSecure: false # Bad Idea, get HTTPS for prodcution
       google:
+        clientId: ''
+        clientSecret: ''
+        isSecure: false # Bad Idea, get HTTPS for prodcution
+      github:
+        clientId: ''
+        clientSecret: ''
+        isSecure: false # Bad Idea, get HTTPS for prodcution
+      facebook:
         clientId: ''
         clientSecret: ''
         isSecure: false # Bad Idea, get HTTPS for prodcution
@@ -50,7 +63,7 @@ store = new Confidence.Store
       host: 'localhost'
       user: 'root'
       password: ''
-      database: ''
+      database: 'hapi'
       debug: false
 
 criteria =
