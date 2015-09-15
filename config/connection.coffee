@@ -8,7 +8,7 @@ store = new Confidence.Store
       host: 'auth.hyprtxt.com'
       port: 8001
     $default: # for devs
-      host: 'auth.hyprtxt.dev'
+      host: 'localhost'
       port: 8001
 
 criteria =

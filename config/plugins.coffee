@@ -12,21 +12,6 @@ module.exports = [
   # jade helper
     register: require('../plugins/jadeHelper')
   ,
-  # social login
-    register: require('bell')
-  ,
-  # sessions
-    register: require('hapi-auth-cookie')
-  ,
-  # combines social login with sessions
-    register: require('../plugins/auth')
-  ,
-  # database
-    register: require('../plugins/mysql')
-  ,
-  # sockets
-    register: require('../plugins/sockets')
-  ,
   # event logging
     register: require('good')
     options:

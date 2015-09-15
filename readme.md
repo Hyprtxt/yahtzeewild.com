@@ -2,20 +2,20 @@
 
 Cool stuff!
 
+## Get Started
+
+`npm install;bower install`
+
+`npm start` in Terminal #1
+`gulp watch` in Terminal #2
+
 ### Dependencies
 
 * Chrome with [LiveReload Extension](https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei?hl=en)
 
 ### Configuration
 
-** Server Secrets **
-
-1. Rename `./config/_secret.coffee` to `./config/secret.coffee`
-2. Add your social auth secrets
-
-`./config/secret.coffee` is ignored by `git`, don't commit your secrets!
-
-** View Config **
+**View Config**
 
 `./config/frontend.coffee` is passed to all Jade templates. Use it for global front-end configuration values.
 

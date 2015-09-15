@@ -1,7 +1,6 @@
 module.exports =
   title: 'Hypr-Hapi'
   javascripts: [
-    '/socket.io/socket.io.js'
     '/js/jquery.min.js'
     '/js/script.js'
   ]
@@ -13,7 +12,7 @@ module.exports =
     title: 'Hyprtxt'
     link: '/'
   navigation: [
-    title: 'Logout'
-    link: '/logout'
+    title: 'A Link'
+    link: '#somewhere'
   ]
   timestamp: new Date()
