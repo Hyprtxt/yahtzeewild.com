@@ -22,11 +22,23 @@ server.route
   method: 'GET'
   path: '/'
   config:
-    auth: 'session'
     pre: [ server.plugins['jadeHelper'].jadeRouteSetup ]
     handler: ( request, reply ) ->
       reply.view 'index', request.pre
       return
+
+# Static
+server.route
+  method: 'GET'
+  path: '/{param*}'
+  handler:
+    directory:
+      path: [
+        Path.join __dirname, '/static/'
+        Path.join __dirname, '/static_generated/'
+      ]
+      redirectToSlash: true
+      listing: true
 
 # Start the server
 server.start ->
