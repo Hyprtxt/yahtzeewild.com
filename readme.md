@@ -4,6 +4,8 @@ Cool stuff!
 
 ## Get Started
 
+`npm i -g coffee-script bower nodemon gulp`
+
 `npm install;bower install`
 
 `npm start` in Terminal #1
