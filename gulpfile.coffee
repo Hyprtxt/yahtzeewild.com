@@ -67,7 +67,7 @@ gulp.task 'watch', [ 'copyfont', 'copycss', 'sass', 'copyjs', 'coffee' ], ->
 # static site stuff
 
 jade = require 'gulp-jade'
-gulp.task 'jade', ->
+gulp.task 'jade', [ 'cleanstatic' ], ->
   return gulp.src [ './views/**/*.jade', '!./views/layout/**' ]
     .pipe jade
       locals: require './view-data/global'
@@ -78,5 +78,11 @@ gulp.task 'copystatic', [ 'copyfont', 'copycss', 'sass', 'copyjs', 'coffee' ], -
   return gulp.src [ './static/**', './static_generated/**' ]
     .pipe gulp.dest './public_html'
 
-gulp.task 'render', [ 'jade', 'copystatic' ], ->
+gulp.task 'cleanstatic', ( cb ) ->
+  return rimraf './public_html', cb
+
+gulp.task 'cleanmap', [ 'copystatic' ], ( cb ) ->
+  return rimraf './public_html/map', cb
+
+gulp.task 'render', [ 'cleanstatic', 'jade', 'copystatic', 'cleanmap' ], ->
   return
