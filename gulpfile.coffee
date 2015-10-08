@@ -68,7 +68,7 @@ gulp.task 'watch', [ 'copyfont', 'copycss', 'sass', 'copyjs', 'coffee' ], ->
 
 jade = require 'gulp-jade'
 gulp.task 'jade', ->
-  return gulp.src [ './views/**/*.jade', '!./views/includes/**', '!./views/layout.jade' ]
+  return gulp.src [ './views/**/*.jade', '!./views/layout/**' ]
     .pipe jade
       locals: require './view-data/global'
       pretty: true
