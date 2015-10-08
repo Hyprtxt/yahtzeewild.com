@@ -1,31 +1,27 @@
-# modules
-Hapi = require('hapi')
-Path = require('path')
+Hapi = require 'hapi'
+Boom = require 'boom'
 
-# functions
-setupTmp = require('./functions/setupTmp')
-throwErr = require('./functions/throwErr')
+setupDir = require './modules/setup-dir'
+throwErr = require './modules/throw-err'
 
-# server
+setupDir() # creates `./logs/good.log` if needed
+
 server = new Hapi.Server()
 
-server.connection require('./config/connection').get('/connectionConfig')
+server.connection require('./config').get '/connection'
 
-setupTmp() # creates `./logs/good.log` if needed
+server.register require('./config').get('/plugin'), throwErr
 
-server.register require('./config/plugins'), throwErr
-
-server.views require('./config/views').get('/viewConfig')
+server.views require('./config').get '/view'
 
 # Homepage
 server.route
   method: 'GET'
   path: '/'
   config:
-    pre: [ server.plugins['jadeHelper'].jadeRouteSetup ]
+    pre: [ server.plugins['jade'].global ]
     handler: ( request, reply ) ->
-      reply.view 'index', request.pre
-      return
+      return reply.view 'index', request.pre
 
 # Static
 server.route
@@ -34,13 +30,24 @@ server.route
   handler:
     directory:
       path: [
-        Path.join __dirname, '/static/'
-        Path.join __dirname, '/static_generated/'
+        './static/'
+        './static_generated/'
       ]
       redirectToSlash: true
       listing: true
 
-# Start the server
+server.route
+  method: 'GET'
+  path: '/{jade}/'
+  config:
+    pre: [ server.plugins['jade'].global ]
+    handler: ( request, reply ) ->
+      console.log 'try' + request.params.jade
+      request.render request.params.jade, request.pre, ( err, rendered, config ) ->
+        if err
+          return reply Boom.badRequest 'template not found', 404
+        else
+          return reply rendered
+
 server.start ->
-  console.log 'Server running at:', server.info.uri
-  return
+  return console.log 'Server running at:', server.info.uri

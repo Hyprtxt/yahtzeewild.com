@@ -1,10 +1,10 @@
-# Hyprtxt Hapi
+# Hypr Hapi
 
-Cool stuff!
+I can make the things with this, you too!
 
 ## Get Started
 
-`npm i -g coffee-script bower nodemon gulp`
+`npm i -g bower gulp`
 
 `npm install;bower install`
 

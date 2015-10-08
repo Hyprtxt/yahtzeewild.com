@@ -1,4 +1,3 @@
-#setup
 Path = require('path')
 Mkdirp = require('mkdirp')
 Touch = require('touch')

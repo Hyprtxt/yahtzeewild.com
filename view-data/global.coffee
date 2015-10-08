@@ -5,7 +5,6 @@ module.exports =
     '/js/script.js'
   ]
   stylesheets: [
-    '/css/font-awesome.css'
     '/css/style.css'
   ]
   navbarBrand:

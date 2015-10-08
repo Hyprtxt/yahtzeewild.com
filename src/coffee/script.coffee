@@ -1,1 +1,1 @@
-console.log 'script is here'
+console.log 'script loaded'

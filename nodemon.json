@@ -1,7 +1,14 @@
 {
   "ignore": [
+    "bower_components",
     "log",
+    "node_modules",
     "src",
-    "static_generated"
+    "static_generated",
+    "view-data"
+    "bower.json",
+    "gulpfile.coffee",
+    "package.json",
+    "readme.md"
   ]
 }
