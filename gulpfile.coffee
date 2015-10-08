@@ -74,7 +74,7 @@ gulp.task 'jade', [ 'cleanstatic' ], ->
       pretty: true
     .pipe gulp.dest './public_html'
 
-gulp.task 'copystatic', [ 'copyfont', 'copycss', 'sass', 'copyjs', 'coffee' ], ->
+gulp.task 'copystatic', [ 'jade', 'copyfont', 'copycss', 'sass', 'copyjs', 'coffee' ], ->
   return gulp.src [ './static/**', './static_generated/**' ]
     .pipe gulp.dest './public_html'
 
@@ -84,5 +84,5 @@ gulp.task 'cleanstatic', ( cb ) ->
 gulp.task 'cleanmap', [ 'copystatic' ], ( cb ) ->
   return rimraf './public_html/map', cb
 
-gulp.task 'render', [ 'cleanstatic', 'jade', 'copystatic', 'cleanmap' ], ->
+gulp.task 'render', [ 'cleanstatic', 'copystatic', 'cleanmap' ], ->
   return
