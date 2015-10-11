@@ -11,7 +11,7 @@ I can make the things with this, you too!
 
 ## Get Started
 
-You'll need
+You'll need, some things for the stuff to work
 
 * Node installed with NVM
 * [Atom](https://atom.io/) - Text Editor
