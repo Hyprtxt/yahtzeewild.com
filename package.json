@@ -1,7 +1,7 @@
 {
   "name": "hapi.hyprtxt.com",
   "version": "1.0.0",
-  "description": "Hyprtxt HAPI Example",
+  "description": "Hyprtxt HAPI Boilerplate",
   "main": "index.coffee",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

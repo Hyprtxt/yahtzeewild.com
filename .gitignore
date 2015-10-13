@@ -3,5 +3,5 @@ node_modules
 bower_components
 config/secret.coffee
 static_generated
-log
+logs
 public_html

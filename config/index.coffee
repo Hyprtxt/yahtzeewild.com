@@ -57,7 +57,7 @@ store = new Confidence.Store
           events:
             log: '*'
             response: '*'
-          config: Path.join( __dirname, '../log', 'good.log' )
+          config: Path.join( __dirname, '../logs', 'good.log' )
         ]
   ]
   auth:

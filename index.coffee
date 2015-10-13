@@ -1,16 +1,13 @@
 Hapi = require 'hapi'
-Boom = require 'boom'
-
-setupDir = require './modules/setup-dir'
-throwErr = require './modules/throw-err'
-
-setupDir() # creates `./logs/good.log` if needed
 
 server = new Hapi.Server()
 
 server.connection require('./config').get '/connection'
 
-server.register require('./config').get('/plugin'), throwErr
+server.register require('./config').get('/plugin'), ( err ) ->
+  if( err )
+    throw err
+  return
 
 server.views require('./config').get '/view'
 
@@ -26,9 +23,10 @@ server.route
   config:
     pre: [ server.plugins['jade'].global ]
     handler: ( request, reply ) ->
-      return fs.readdir nginx_dir + '/available', ( err, files ) ->
-        request.pre.dirs = files
-        console.log files
+      return fs.readdir nginx_dir + '/available', ( err, available ) ->
+        request.pre.dirs = available
+        # return fs.readdir nginx_dir + '/enabled', ( err, enabled ) ->
+          # console.log files
         return reply.view 'index', request.pre
 
 server.route
@@ -53,19 +51,6 @@ server.route
         request.pre.dirs = files
         console.log files
         return reply.view 'index', request.pre
-
-# Static (Handled By Nginx)
-# server.route
-#   method: 'GET'
-#   path: '/{param*}'
-#   handler:
-#     directory:
-#       path: [
-#         './static/'
-#         './static_generated/'
-#       ]
-#       redirectToSlash: true
-#       listing: true
 
 server.start ->
   return console.log 'Server running at:', server.info.uri
