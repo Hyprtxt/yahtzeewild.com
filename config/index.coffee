@@ -7,10 +7,10 @@ store = new Confidence.Store
     $filter: 'env'
     production:
       host: 'localhost'
-      port: 8011
+      port: 8007
     $default: # for devs
-      host: 'nginx.hyprtxt.dev'
-      port: 8011
+      host: 'hapi.hyprtxt.dev'
+      port: 8007
 
   view:
     $filter: 'env'
@@ -37,12 +37,6 @@ store = new Confidence.Store
     # jade helper
       register: require '../plugins/jade'
     ,
-    # social login
-      register: require 'bell'
-    ,
-    # sessions
-      register: require 'hapi-auth-cookie'
-    ,
     # event logging
       register: require 'good'
       options:
@@ -60,27 +54,6 @@ store = new Confidence.Store
           config: Path.join( __dirname, '../logs', 'good.log' )
         ]
   ]
-  auth:
-    $filter: 'env'
-    $base:
-      cookie:
-        password: 'hapiauth'
-      route:
-        facebook:
-          callbackURL: '/login/facebook'
-          btn: 'btn-primary-outline'
-          icon: 'fa-facebook'
-          name: 'Facebook'
-    production:
-      facebook:
-        clientId: '1633329656917471'
-        clientSecret: 'abc589dc42fc4ffc74ed1c979aa10ab5'
-        isSecure: false
-    $default: # for devs
-      facebook:
-        clientId: '1633329963584107'
-        clientSecret: 'f25da49b468bafe838d4a7939e2d360f'
-        isSecure: false # Bad Idea, get HTTPS for prodcution
 
 criteria =
   # https://docs.npmjs.com/misc/config#production

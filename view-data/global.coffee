@@ -15,3 +15,4 @@ module.exports =
     link: '#somewhere'
   ]
   timestamp: new Date()
+  env: process.env.NODE_ENV

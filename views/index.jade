@@ -3,9 +3,4 @@ extends ./layout/layout.jade
 block content
   .row
     .col-md-12
-      //- pre=JSON.stringify( dirs, null, 2 )
-      if dirs
-        ul
-          each dir in dirs
-            li=dir
-      //- include:markdown-it ../readme.md
+      include:markdown-it ../readme.md

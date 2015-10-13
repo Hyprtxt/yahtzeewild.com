@@ -4,11 +4,6 @@ exports.register = ( server, options, next ) ->
     request.pre = require '../view-data/global'
     return reply()
 
-  server.expose 'session', ( request, reply ) ->
-    # request.pre.auth = request.auth
-    request.pre.session = request.auth.artifacts
-    return reply()
-
   return next()
 
 exports.register.attributes =
