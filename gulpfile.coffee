@@ -11,7 +11,7 @@ list = require 'gulp-task-listing'
 
 dest = './static_generated'
 
-gulp.task 'default', list
+gulp.task 'default', [ 'watch' ]
 
 gulp.task 'help', list
 

@@ -1,11 +1,11 @@
 module.exports =
   title: 'Hypr-Hapi'
   javascripts: [
-    '/js/jquery.min.js'
-    '/js/script.js'
+    '/nginx/js/jquery/jquery.min.js'
+    '/nginx/js/script.js'
   ]
   stylesheets: [
-    '/css/style.css'
+    '/nginx/css/style.css'
   ]
   navbarBrand:
     title: 'Hyprtxt'

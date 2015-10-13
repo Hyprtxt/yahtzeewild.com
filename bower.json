@@ -1,10 +1,10 @@
 {
-  "name": "auth.hyprtxt.com",
+  "name": "hapi.hyprtxt.com",
   "version": "0.1.0",
   "authors": [
     "Taylor Young <taylor@hyprtxt.com>"
   ],
-  "description": "HAPI Google Auth Example",
+  "description": "Hyprtxt HAPI Boilerplate",
   "main": "index.coffee",
   "license": "MIT",
   "private": true,
