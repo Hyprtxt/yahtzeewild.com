@@ -10,6 +10,7 @@
     "view-data",
     "bower.json",
     "gulpfile.coffee",
+    "license.txt",
     "nodemon.json",
     "package.json",
     "readme.md"
