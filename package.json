@@ -10,8 +10,6 @@
   "author": "Taylor Young (taylor@hyprtxt.com)",
   "license": "MIT",
   "dependencies": {
-    "bell": "^5.1.0",
-    "boom": "^2.9.0",
     "coffee-script": "^1.10.0",
     "confidence": "^1.2.0",
     "good": "^6.3.0",
@@ -27,14 +25,11 @@
     "gulp-task-listing": "^1.0.1",
     "gulp-util": "^3.0.6",
     "hapi": "^10.0.0",
-    "hapi-auth-cookie": "^3.1.0",
     "inert": "^3.0.1",
     "jade": "^1.11.0",
     "jstransformer-markdown-it": "^0.1.0",
-    "mkdirp": "^0.5.1",
     "nodemon": "^1.4.1",
     "rimraf": "^2.4.3",
-    "touch": "^1.0.0",
     "vision": "^3.0.0"
   }
 }

@@ -7,7 +7,6 @@ coffee = require 'gulp-coffee'
 livereload = require 'gulp-livereload'
 rimraf = require 'rimraf'
 list = require 'gulp-task-listing'
-# exec = require('child_process').exec
 
 dest = './static_generated'
 
@@ -43,7 +42,7 @@ gulp.task 'sass', ->
         includePaths: [ './bower_components/' ]
       ).on 'error', sass.logError
     .pipe autoprefixer [ '> 1%' ]
-    .pipe sourcemaps.write '../map' # , sourceRoot: __dirname + './src'
+    .pipe sourcemaps.write '../map'
     .pipe gulp.dest dest + '/css'
     .pipe livereload()
 
@@ -53,7 +52,7 @@ gulp.task 'coffee', ->
     .pipe coffee(
         bare: true
       ).on 'error', gutil.log
-    .pipe sourcemaps.write '../map' # , sourceRoot: __dirname + './src'
+    .pipe sourcemaps.write '../map'
     .pipe gulp.dest dest + '/js'
     .pipe livereload()
 
