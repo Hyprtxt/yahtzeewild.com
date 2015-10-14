@@ -28,13 +28,15 @@ block content
     .col-md-2
       button.btn.btn-block.btn-success-outline Chance
   .row.m-b
-    each num in [0,1,2,3,4]
-      .col-md-2(class='slot-'+num)
+    #container Loading...
+    //- each num in [0,1,2,3,4]
+    //-   .col-md-2(class='slot-'+num)
   .row.m-b
     .col-md-12
       button#roll.btn.btn-primary-outline Roll
-  .template(hidden)
-    .die
+
+  script#dieTemplate(type='text/template')
+    .die(class!='value-<%= value %>')
       i.fa.fa-circle
       i.fa.fa-circle
       i.fa.fa-circle

@@ -24,6 +24,10 @@ gulp.task 'copystatic', ->
 gulp.task 'copyjs', ->
   gulp.src './bower_components/bootstrap/js/dist/*'
     .pipe gulp.dest dest + '/js/bootstrap'
+  gulp.src './bower_components/underscore/**.js'
+    .pipe gulp.dest dest + '/js/underscore'
+  gulp.src './bower_components/backbone/**.js'
+    .pipe gulp.dest dest + '/js/backbone'
   return gulp.src './bower_components/jquery/dist/*'
     .pipe gulp.dest dest + '/js/jquery'
 

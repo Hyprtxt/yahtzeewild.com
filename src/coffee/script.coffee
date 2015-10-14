@@ -1,74 +1,78 @@
-console.log 'script loaded'
-
-$dieTemplate = $ '.template .die'
 $roll = $ '#roll'
 
 getRandomInt = ( min, max ) ->
   return Math.floor( Math.random() * ( max - min + 1 ) ) + min
 
-Game = ( options ) ->
-  @opts = options or {}
-  @dice = [1..6].map ( val ) ->
-    return new Die()
-  return @
-
-Game::render = ->
-  @dice.forEach ( die, idx ) ->
-    $slot = $ '.slot-' + idx
-    return $slot.html die.render()
-  return @
-
-Game::roll = ->
-  @dice.forEach ( die ) ->
-    console.log die
-    return die.roll()
-  @render()
-  return @
-
-Die = ( options ) ->
-  @opts = options or {}
-  @value = @opts.value or getRandomInt 1, 6
-  @wild = @makeWild()
-  @held = false
-  return @
-
-Die::makeWild = ->
+isWild = ->
   random = getRandomInt 1, 8
   if random is 1
     return true
   else
     return false
 
-Die::render = ->
-  $die = $dieTemplate.clone()
-  $die.on 'click', ( e ) ->
-    return console.log e
-  classAttr = 'number-' + @.value
-  if @.held
-    classAttr = classAttr + ' held'
-  if @.wild
-    classAttr = classAttr + ' wild'
-  return $die.addClass classAttr
+Die = Backbone.Model.extend
+  defaults:
+    held: false
+    value: 1 # getRandomInt 1, 6
+    wild: false # isWild()
 
 Die::roll = ->
-  if @held is false
-    @value = getRandomInt 1, 6
-    if @wild is false
-      @wild = @makeWild()
+  if !@.get 'held'
+    @.set 'value', getRandomInt 1, 6
+    if !@.get 'wild'
+      @.set 'wild', isWild()
   return @
 
-Die::hold = ->
-  if held is false
-    @held = true
-  return @
+Game = Backbone.Collection.extend
+  model: Die
 
-Die::holdToggle = ->
-  @held = !@held
-  return @
+DieView = Backbone.View.extend
+  # tagName: 'div'
+  template: _.template $('#dieTemplate').html()
+  initialize: ->
+    this.render()
+    return this
+  render: ->
+    this.$el.html this.template this.model.toJSON()
+    if this.model.get 'held'
+      this.$el.addClass('held')
+    else
+      this.$el.removeClass('held')
+    return this
+  events:
+    'click': 'holdToggle'
+    'roll': 'roll'
+  holdToggle: ->
+    held = this.model.get 'held'
+    this.model.set 'held', !held
+    this.render()
+    return this
 
-_game = new Game()
+GameView = Backbone.View.extend
+  el: '#container'
+  initialize: ->
+    this.render()
+    return this
+  render: ->
+    this.$el.html ''
+    this.collection.each ( die ) ->
+      dieView = new DieView model: die, className: 'col-md-2'
+      return this.$el.append dieView.el
+    , this
+    return this
+  rollAll: ->
+    this.collection.each ( die ) ->
+      return die.roll()
+    , this
+    this.render()
+    return this
 
-_game.render()
+dice = [1..5].map ( i ) ->
+  return new Die
+    value: getRandomInt 1, 6
+    wild: isWild()
+
+view = new GameView collection: new Game dice
 
 $roll.on 'click', ( e ) ->
-  return _game.roll()
+  return view.rollAll()

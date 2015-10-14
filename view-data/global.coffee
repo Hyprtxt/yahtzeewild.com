@@ -2,6 +2,8 @@ module.exports =
   title: 'Yahtzee Wild | Hyprtxt'
   javascripts: [
     '/nginx/js/jquery/jquery.min.js'
+    '/nginx/js/underscore/underscore-min.js'
+    '/nginx/js/backbone/backbone-min.js'
     '/nginx/js/script.js'
   ]
   stylesheets: [
