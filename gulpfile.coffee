@@ -59,12 +59,20 @@ gulp.task 'coffee', ->
 gulp.task 'reload', ->
   return livereload.reload()
 
+gulp.task 'waitreload', ( cb ) ->
+  # This one has to wait for nodemon to restart
+  # require caches './view-data/global.coffee'
+  # letting nodemon restart is a quick lazy fix
+  return setTimeout ->
+    return cb livereload.reload()
+  , 1500
+
 gulp.task 'watch', [ 'copystatic', 'copyfont', 'copycss', 'sass', 'copyjs', 'coffee' ], ->
   gulp.watch './src/sass/**/*.sass', [ 'sass' ]
   gulp.watch './src/coffee/**/*.coffee', [ 'coffee' ]
   gulp.watch './views/**/*.jade', [ 'reload' ]
   gulp.watch './static/**/*.*', [ 'copystatic', 'reload' ]
-  gulp.watch './view-data/**', [ 'reload' ]
+  gulp.watch './view-data/**', [ 'waitreload' ]
   gulp.watch './readme.md', [ 'reload' ]
   return livereload.listen
     basePath: './src'
