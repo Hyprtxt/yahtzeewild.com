@@ -3,8 +3,10 @@ $roll = $ '#roll'
 getRandomInt = ( min, max ) ->
   return Math.floor( Math.random() * ( max - min + 1 ) ) + min
 
+wildFactor = 8
+
 isWild = ->
-  random = getRandomInt 1, 8
+  random = getRandomInt 1, wildFactor
   if random is 1
     return true
   else
@@ -20,7 +22,10 @@ Die::roll = ->
   if !@.get 'held'
     @.set 'value', getRandomInt 1, 6
     if !@.get 'wild'
-      @.set 'wild', isWild()
+      iswild = isWild()
+      if iswild
+        @.set 'wild', true
+        @.set 'held', true
   return @
 
 Game = Backbone.Collection.extend
@@ -35,9 +40,12 @@ DieView = Backbone.View.extend
   render: ->
     this.$el.html this.template this.model.toJSON()
     if this.model.get 'held'
-      this.$el.addClass('held')
+      this.$el.addClass 'held'
     else
-      this.$el.removeClass('held')
+      this.$el.removeClass 'held'
+    if this.model.get 'wild'
+      this.$el.addClass 'wild'
+      this.$el.addClass 'held'
     return this
   events:
     'click': 'holdToggle'

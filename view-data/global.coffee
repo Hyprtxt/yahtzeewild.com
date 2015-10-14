@@ -13,8 +13,8 @@ module.exports =
     title: 'Yahtzee Wild'
     link: '/'
   navigation: [
-    title: 'A Link'
-    link: '#somewhere'
+    # title: 'A Link'
+    # link: '#somewhere'
   ]
   timestamp: new Date()
   env: process.env.NODE_ENV
