@@ -7,10 +7,10 @@ store = new Confidence.Store
     $filter: 'env'
     production:
       host: 'localhost'
-      port: 8007
+      port: 8012
     $default: # for devs
-      host: 'hapi.hyprtxt.dev'
-      port: 8007
+      host: 'yahtzeewild.dev'
+      port: 8012
 
   view:
     $filter: 'env'

@@ -1,6 +1,44 @@
 extends ./layout/layout.jade
 
 block content
-  .row
+  .row.m-b
+    .col-md-2
+      button.btn.btn-block.btn-success-outline 1's
+    .col-md-2
+      button.btn.btn-block.btn-success-outline 2's
+    .col-md-2
+      button.btn.btn-block.btn-success-outline 3's
+    .col-md-2
+      button.btn.btn-block.btn-success-outline 4's
+    .col-md-2
+      button.btn.btn-block.btn-success-outline 5's
+    .col-md-2
+      button.btn.btn-block.btn-success-outline 6's
+  .row.m-b
+    .col-md-2
+      button.btn.btn-block.btn-success-outline 3 of a Kind
+    .col-md-2
+      button.btn.btn-block.btn-success-outline 4 of a Kind
+    .col-md-2
+      button.btn.btn-block.btn-success-outline Full House
+    .col-md-2
+      button.btn.btn-block.btn-success-outline Small Straight
+    .col-md-2
+      button.btn.btn-block.btn-success-outline Large Straight
+    .col-md-2
+      button.btn.btn-block.btn-success-outline Chance
+  .row.m-b
+    each num in [0,1,2,3,4]
+      .col-md-2(class='slot-'+num)
+  .row.m-b
     .col-md-12
-      include:markdown-it ../readme.md
+      button#roll.btn.btn-primary-outline Roll
+  .template(hidden)
+    .die
+      i.fa.fa-circle
+      i.fa.fa-circle
+      i.fa.fa-circle
+      i.fa.fa-circle
+      i.fa.fa-circle
+      i.fa.fa-circle
+      i.fa.fa-star

@@ -1,5 +1,5 @@
 module.exports =
-  title: 'Hypr-Hapi'
+  title: 'Yahtzee Wild | Hyprtxt'
   javascripts: [
     '/nginx/js/jquery/jquery.min.js'
     '/nginx/js/script.js'
@@ -8,7 +8,7 @@ module.exports =
     '/nginx/css/style.css'
   ]
   navbarBrand:
-    title: 'Hyprtxt'
+    title: 'Yahtzee Wild'
     link: '/'
   navigation: [
     title: 'A Link'
