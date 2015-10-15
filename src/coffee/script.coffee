@@ -1,8 +1,10 @@
-$roll = $ '#roll'
+$rollDice  = $ '#rollDice'
 $score = $ '#score'
-$turn = $ '#turn'
+$turn  = $ '#turn'
+$roll  = $ '#roll'
 
 wildFactor = 8
+started = false
 
 getRandomInt = ( min, max ) ->
   return Math.floor( Math.random() * ( max - min + 1 ) ) + min
@@ -41,7 +43,7 @@ dice = [1..5].map ( i ) ->
     held: beheld
 
 Game = ->
-  @roll       = 1 # start at 0?
+  @roll       = 0
   @turn       = 1 # start at 0?
   @top1       = 0
   @top1Done   = false
@@ -76,9 +78,10 @@ Game = ->
 
 Game::endTurn = ->
   @turn = @turn + 1
+  @roll = 0
   @bonusCheck()
   # unhold all dice
-  # reset rollCount
+  _view.endTurn()
   @render()
   return @
 
@@ -94,8 +97,9 @@ Game::getScore = ->
 
 Game::render = ->
   # check turns for gameOver
-  # console.log @getScore()
+  console.log @roll
   $score.text @getScore()
+  $roll.text @roll
   $turn.text @turn
   return @
 
@@ -216,8 +220,21 @@ GameView = Backbone.View.extend
     , this
     this.render()
     return this
+  endTurn: ->
+    this.collection.forEach ( die ) ->
+      die.set 'held', false
+      return
+    this.render()
+    return this
 
-_view = new GameView collection: new DiceCollection dice
+_view = {}
 
-$roll.on 'click', ( e ) ->
-  return _view.rollAll()
+$rollDice.on 'click', ( e ) ->
+  if !started
+    _view = new GameView collection: new DiceCollection dice
+  _game.roll++
+  if _game.roll < 4
+    _game.render()
+    return _view.rollAll()
+  else
+    return alert 'nope, take a score'
