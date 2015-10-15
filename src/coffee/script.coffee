@@ -1,10 +1,9 @@
 $rollDice  = $ '#rollDice'
-$score = $ '#score'
-$turn  = $ '#turn'
-$roll  = $ '#roll'
+$score     = $ '#score'
+$turn      = $ '#turn'
+$roll      = $ '#roll'
 
 wildFactor = 8
-started = false
 
 Array::unique = ->
   @reduce ( accum, current ) ->
@@ -56,7 +55,7 @@ dice = [1..5].map ( i ) ->
 
 Game = ->
   @roll       = 0
-  @turn       = 1 # start at 0?
+  @turn       = 1
   @top1       = 0
   @top1Done   = false
   @top2       = 0
@@ -85,14 +84,17 @@ Game = ->
   @kind5      = 0
   @kind5Done  = false
   @wild       = 0
-  # @score    = 0
   return @
 
 Game::endTurn = ->
+  # check turns for gameOver
+  if @turn = 14
+    alert 'Game over, you scored: ' + @score
+    _game = new Game()
+    _game.render()
   @turn = @turn + 1
   @roll = 0
   @bonusCheck()
-  # unhold all dice
   _view.endTurn()
   @render()
   return @
@@ -108,8 +110,6 @@ Game::getScore = ->
   @kind3 + @kind4 + @house + @small + @large + @chance + @kind5 + @wild
 
 Game::render = ->
-  # check turns for gameOver
-  # console.log @roll
   $score.text @getScore()
   $roll.text @roll
   $turn.text @turn
@@ -286,7 +286,6 @@ DieView = Backbone.View.extend
     return this
   events:
     'click': 'toggleDie'
-    'roll': 'roll'
   toggleDie: ->
     wild = this.model.get 'wild'
     held = this.model.get 'held'
