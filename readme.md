@@ -1,3 +1,8 @@
+# Yahtzee Wild
+
+* 4 vs 1 full house
+* How to take a zero for score
+
 # Hypr Hapi
 
 I can make the things with this, you too!

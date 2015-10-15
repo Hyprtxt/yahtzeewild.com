@@ -1,50 +1,54 @@
 extends ./layout/layout.jade
 
 block content
-  h1.m-b Work in progress...
+  .row.m-b
+    .col-md-6
+      h1 Have Fun!
+    .col-md-6
+      button(disabled).btn.btn-primary.pull-right.m-l Score 
+        span#score 0
+      button(disabled).btn.btn-danger.pull-right.m-l Roll 
+        span#roll 0
+      button(disabled).btn.btn-warning.pull-right.m-l Turn 
+        span#turn 0
   .row.m-b
     .col-md-2
-      button(data-score=1, disabled).top.btn-score.btn.btn-block.btn-success 1's
+      button(data-score=1, disabled)#top1.btn-score.btn.btn-block.btn-success 1's
     .col-md-2
-      button(data-score=2, disabled).top.btn-score.btn.btn-block.btn-success 2's
+      button(data-score=2, disabled)#top2.btn-score.btn.btn-block.btn-success 2's
     .col-md-2
-      button(data-score=3, disabled).top.btn-score.btn.btn-block.btn-success 3's
+      button(data-score=3, disabled)#top3.btn-score.btn.btn-block.btn-success 3's
     .col-md-2
-      button(data-score=4, disabled).top.btn-score.btn.btn-block.btn-success 4's
+      button(data-score=4, disabled)#top4.btn-score.btn.btn-block.btn-success 4's
     .col-md-2
-      button(data-score=5, disabled).top.btn-score.btn.btn-block.btn-success 5's
+      button(data-score=5, disabled)#top5.btn-score.btn.btn-block.btn-success 5's
     .col-md-2
-      button(data-score=6, disabled).top.btn-score.btn.btn-block.btn-success 6's
+      button(data-score=6, disabled)#top6.btn-score.btn.btn-block.btn-success 6's
 
   .row.m-b
     .col-md-2
-      button(data-score='kind3', disabled)#kind3.bottom.btn-score.btn.btn-block.btn-primary 3 Kind
+      button(data-score='kind3', disabled)#kind3.btn-score.btn.btn-block.btn-primary 3 Kind
     .col-md-2
-      button(data-score='kind4', disabled)#kind4.bottom.btn-score.btn.btn-block.btn-primary 4 Kind
+      button(data-score='kind4', disabled)#kind4.btn-score.btn.btn-block.btn-primary 4 Kind
     .col-md-2
-      button(data-score='house', disabled)#house.bottom.btn-score.btn.btn-block.btn-primary Full House
+      button(data-score='house', disabled)#house.btn-score.btn.btn-block.btn-primary Full House
     .col-md-2
-      button(data-score='small', disabled)#small.bottom.btn-score.btn.btn-block.btn-primary Sm Straight
+      button(data-score='small', disabled)#small.btn-score.btn.btn-block.btn-primary Sm Straight
     .col-md-2
-      button(data-score='large', disabled)#large.bottom.btn-score.btn.btn-block.btn-primary Lg Straight
+      button(data-score='large', disabled)#large.btn-score.btn.btn-block.btn-primary Lg Straight
     .col-md-2
-      button(data-score='chance', disabled)#chance.bottom.btn-score.btn.btn-block.btn-primary Chance
+      button(data-score='chance', disabled)#chance.btn-score.btn.btn-block.btn-primary Chance
 
   .row.m-b
     #container Waiting...
 
   .row.m-b
     .col-md-12
-      button(data-score='kind5', disabled)#kind5.bottom.btn-score.btn.btn-success.pull-right Yahtzee!
-      button#rollDice.btn.btn-primary-outline Roll
-      button(disabled).btn.btn-primary Score 
-        span#score 0
-      button(disabled).btn.btn-warning Turn 
-        span#turn 0
-      button(disabled).btn.btn-danger Roll 
-        span#roll 0
-      button(disabled)#finalize-score.btn.btn-secondary Take Roll Value of 
+      button(data-score='kind5', disabled)#kind5.btn-score.btn.btn-success.pull-right Yahtzee!
+      button#rollDice.btn.btn-primary-outline.m-r Roll
+      button(disabled)#finalize-score.btn.btn-secondary.m-r Take Roll Value of 
         span#rollValue 0
+      button#score-zero.btn.btn-secondary.m-r Score a 0
 
   script#dieTemplate(type='text/template')
     .die(class!='value-<%= value %>')
