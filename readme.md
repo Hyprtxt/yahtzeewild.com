@@ -97,3 +97,9 @@ In addition to the core modules, serveral other Hapi modules are used by this pr
 * Boom - errors
 * Confidence - configuration
 * Inert - static file serving
+
+# Forever Startup
+
+```
+forever start --uid "yahtzeewild.com" --append -c ./node_modules/coffee-script/bin/coffee index.coffee
+```
