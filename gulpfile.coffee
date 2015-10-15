@@ -81,3 +81,5 @@ gulp.task 'watch', [ 'copystatic', 'copyfont', 'copycss', 'sass', 'copyjs', 'cof
   return livereload.listen
     basePath: './src'
     start: true
+
+gulp.task 'build', [ 'copystatic', 'copyfont', 'copycss', 'sass', 'copyjs', 'coffee' ]
