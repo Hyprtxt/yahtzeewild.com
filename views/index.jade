@@ -18,15 +18,15 @@ block content
 
   .row.m-b
     .col-md-2
-      button.kind3.btn.btn-block.btn-primary 3 of a Kind
+      button.kind3.btn.btn-block.btn-primary 3 Kind
     .col-md-2
-      button.kind4.btn.btn-block.btn-primary 4 of a Kind
+      button.kind4.btn.btn-block.btn-primary 4 Kind
     .col-md-2
       button.house.btn.btn-block.btn-primary Full House
     .col-md-2
-      button.small.btn.btn-block.btn-primary Small Straight
+      button.small.btn.btn-block.btn-primary Sm Straight
     .col-md-2
-      button.large.btn.btn-block.btn-primary Large Straight
+      button.large.btn.btn-block.btn-primary Lg Straight
     .col-md-2
       button.chance.btn.btn-block.btn-primary Chance
 
@@ -37,11 +37,11 @@ block content
     .col-md-12
       button.yahtzee.btn.btn-success.pull-right Yahtzee!
       button#rollDice.btn.btn-primary-outline Roll
-      button.btn.btn-primary Score 
+      button(disabled).btn.btn-primary Score 
         span#score 0
-      button.btn.btn-warning Turn 
+      button(disabled).btn.btn-warning Turn 
         span#turn 0
-      button.btn.btn-danger Roll 
+      button(disabled).btn.btn-danger Roll 
         span#roll 0
 
   script#dieTemplate(type='text/template')

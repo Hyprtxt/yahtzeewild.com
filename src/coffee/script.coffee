@@ -21,8 +21,13 @@ Die = Backbone.Model.extend
     held: false
     value: 1 # getRandomInt 1, 6
     wild: false # isWild()
+    active: false
 
 Die::roll = ->
+  if _game.roll is 1
+    @.set 'active', true
+    @.set 'wild', false
+    @.set 'held', false
   if !@.get 'held'
     @.set 'value', getRandomInt 1, 6
     if !@.get 'wild'
@@ -120,11 +125,15 @@ scoreTop = ( val ) ->
       return prev
   , 0
 
+sumDice = ->
+  return diceValues().reduce ( prev, curr, idx, arr ) ->
+    return prev + curr
+  , 0
+
 $('.top').on 'click', ( e ) ->
   $current = $( e.currentTarget )
   $current.attr 'disabled', true
   int = $current.data 'top'
-  console.log scoreTop int
   _game[ 'top' + int + 'Done' ] = true
   _game[ 'top' + int ] = scoreTop int
   _game.endTurn()
@@ -133,36 +142,50 @@ $('.top').on 'click', ( e ) ->
 $('.kind3').on 'click', ( e ) ->
   $( e.currentTarget ).attr 'disabled', true
   _game.kind3Done = true
+  _game.kind3 = sumDice()
+  _game.endTurn()
   return
 
 $('.kind4').on 'click', ( e ) ->
   $( e.currentTarget ).attr 'disabled', true
   _game.kind4Done = true
+  _game.kind4 = sumDice()
+  _game.endTurn()
   return
 
 $('.house').on 'click', ( e ) ->
   $( e.currentTarget ).attr 'disabled', true
   _game.houseDone = true
+  _game.house = 25
+  _game.endTurn()
   return
 
 $('.small').on 'click', ( e ) ->
   $( e.currentTarget ).attr 'disabled', true
   _game.smallDone = true
+  _game.small = 30
+  _game.endTurn()
   return
 
 $('.large').on 'click', ( e ) ->
   $( e.currentTarget ).attr 'disabled', true
   _game.largeDone = true
+  _game.large = 40
+  _game.endTurn()
   return
 
 $('.chance').on 'click', ( e ) ->
   $( e.currentTarget ).attr 'disabled', true
   _game.chanceDone = true
+  _game.chance = sumDice()
+  _game.endTurn()
   return
 
 $('.yahtzee').on 'click', ( e ) ->
   $( e.currentTarget ).attr 'disabled', true
   _game.yahtzeeDone = true
+  _game.yahtzee = 50
+  _game.endTurn()
   return
 
 DiceCollection = Backbone.Collection.extend
@@ -180,9 +203,12 @@ DieView = Backbone.View.extend
       this.$el.addClass 'held'
     else
       this.$el.removeClass 'held'
+    if this.model.get 'active'
+      this.$el.removeClass 'hidden'
+    else
+      this.$el.addClass 'hidden'
     if this.model.get 'wild'
       this.$el.addClass 'wild'
-      # this.$el.addClass 'held'
     return this
   events:
     'click': 'toggleDie'
@@ -223,15 +249,14 @@ GameView = Backbone.View.extend
   endTurn: ->
     this.collection.forEach ( die ) ->
       die.set 'held', false
+      die.set 'active', false
       return
     this.render()
     return this
 
-_view = {}
+_view = new GameView collection: new DiceCollection dice
 
 $rollDice.on 'click', ( e ) ->
-  if !started
-    _view = new GameView collection: new DiceCollection dice
   _game.roll++
   if _game.roll < 4
     _game.render()
