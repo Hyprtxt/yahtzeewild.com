@@ -87,12 +87,12 @@ Game = ->
   return @
 
 Game::endTurn = ->
+  @turn = @turn + 1
   # check turns for gameOver
   if @turn is 14
-    alert 'Game over, you scored: ' + @score
+    alert 'Game over, you scored: ' + @getScore()
     _game = new Game()
     _game.render()
-  @turn = @turn + 1
   @roll = 0
   @bonusCheck()
   _view.endTurn()
@@ -155,6 +155,14 @@ sumDice = ->
     return prev + curr
   , 0
 
+takeZeroPrompt = ( score ) ->
+  if confirm 'Score 0?'
+    $( '.' + score ).attr 'disabled', true
+    _game[ score + 'Done' ] = true
+    _game[ score ] = 0
+    _game.endTurn()
+  return
+
 $('.top').on 'click', ( e ) ->
   $current = $( e.currentTarget )
   $current.attr 'disabled', true
@@ -174,7 +182,7 @@ $('.kind3').on 'click', ( e ) ->
     _game.kind3 = sumDice()
     _game.endTurn()
   else
-    alert 'no cheating, @todo taking a zero'
+    takeZeroPrompt 'kind3'
   return
 
 $('.kind4').on 'click', ( e ) ->
@@ -187,7 +195,7 @@ $('.kind4').on 'click', ( e ) ->
     _game.kind4 = sumDice()
     _game.endTurn()
   else
-    alert 'no cheating, @todo taking a zero'
+    takeZeroPrompt 'kind4'
   return
 
 $('.house').on 'click', ( e ) ->
@@ -199,7 +207,7 @@ $('.house').on 'click', ( e ) ->
     _game.house = 25
     _game.endTurn()
   else
-    alert 'no cheating, @todo taking a zero'
+    takeZeroPrompt 'house'
   return
 
 $('.small').on 'click', ( e ) ->
@@ -220,7 +228,7 @@ $('.small').on 'click', ( e ) ->
     _game.small = 30
     _game.endTurn()
   else
-    alert 'no cheating, @todo taking a zero'
+    takeZeroPrompt 'small'
   return
 
 $('.large').on 'click', ( e ) ->
@@ -239,7 +247,7 @@ $('.large').on 'click', ( e ) ->
     _game.large = 40
     _game.endTurn()
   else
-    alert 'no cheating, @todo taking a zero'
+    takeZeroPrompt 'large'
   return
 
 $('.chance').on 'click', ( e ) ->
@@ -259,7 +267,7 @@ $('.yahtzee').on 'click', ( e ) ->
     _game.kind5 = 50
     _game.endTurn()
   else
-    alert 'no cheating, @todo taking a zero'
+    takeZeroPrompt 'kind5'
   return
 
 DiceCollection = Backbone.Collection.extend
