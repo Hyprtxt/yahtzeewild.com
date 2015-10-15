@@ -53,54 +53,47 @@ takeZeroPrompt = ( score ) ->
     _game.endTurn()
   return
 
-$('.top').on 'click', ( e ) ->
-  $current = $( e.currentTarget )
-  $current.attr 'disabled', true
-  int = $current.data 'top'
-  _game[ 'top' + int + 'Done' ] = true
-  _game[ 'top' + int ] = sumSingleValue int
-  _game.endTurn()
-  return
+hasNkind = ( num ) ->
+  hasIt = diceValueCounts().filter ( val ) ->
+    return val >= num
+  if hasIt.length isnt 0
+    return true
+  else
+    return false
 
-$('.kind3').on 'click', ( e ) ->
+has3kind = ->
   has3kind = diceValueCounts().filter ( val ) ->
     return val >= 3
-  # console.log has3kind
   if has3kind.length isnt 0
-    $( e.currentTarget ).attr 'disabled', true
-    _game.kind3Done = true
-    _game.kind3 = sumDice()
-    _game.endTurn()
+    return true
   else
-    takeZeroPrompt 'kind3'
-  return
+    return false
 
-$('.kind4').on 'click', ( e ) ->
+has4kind = ->
   has4kind = diceValueCounts().filter ( val ) ->
     return val >= 4
-  # console.log has4kind
   if has4kind.length isnt 0
-    $( e.currentTarget ).attr 'disabled', true
-    _game.kind4Done = true
-    _game.kind4 = sumDice()
-    _game.endTurn()
+    return true
   else
-    takeZeroPrompt 'kind4'
-  return
+    return false
 
-$('.house').on 'click', ( e ) ->
+has5kind = ->
+  has5kind = diceValueCounts().filter ( val ) ->
+    return val >= 5
+  if has5kind.length isnt 0
+    return true
+  else
+    return false
+
+hasFullHouse = ->
   has3kind = diceValueCounts().filter ( val ) ->
     return val >= 3
   if has3kind && diceValues().unique().length is 2
-    $( e.currentTarget ).attr 'disabled', true
-    _game.houseDone = true
-    _game.house = 25
-    _game.endTurn()
+    return true
   else
-    takeZeroPrompt 'house'
-  return
+    return false
 
-$('.small').on 'click', ( e ) ->
+hasSmallStraight = ->
   smallStraights = [
     [1..4]
     [2..5]
@@ -112,16 +105,9 @@ $('.small').on 'click', ( e ) ->
       if JSON.stringify( set ) is JSON.stringify( straight )
         result = true
       return
-  if result
-    $( e.currentTarget ).attr 'disabled', true
-    _game.smallDone = true
-    _game.small = 30
-    _game.endTurn()
-  else
-    takeZeroPrompt 'small'
-  return
+  return result
 
-$('.large').on 'click', ( e ) ->
+hasLargeStraight = ->
   largeStraights = [
     [1..5]
     [2..6]
@@ -131,7 +117,61 @@ $('.large').on 'click', ( e ) ->
     if JSON.stringify( diceValues().sort() ) is JSON.stringify( straight )
       result = true
     return
-  if result
+  return result
+
+scoreTop = ( e ) ->
+  $current = $( e.currentTarget )
+  $current.attr 'disabled', true
+  int = $current.data 'top'
+  _game[ 'top' + int + 'Done' ] = true
+  _game[ 'top' + int ] = sumSingleValue int
+  _game.endTurn()
+  return
+
+$('.top').on 'click', scoreTop
+
+$('.kind3').on 'click', ( e ) ->
+  if has3kind()
+    $( e.currentTarget ).attr 'disabled', true
+    _game.kind3Done = true
+    _game.kind3 = sumDice()
+    _game.endTurn()
+  else
+    takeZeroPrompt 'kind3'
+  return
+
+$('.kind4').on 'click', ( e ) ->
+  if has4kind()
+    $( e.currentTarget ).attr 'disabled', true
+    _game.kind4Done = true
+    _game.kind4 = sumDice()
+    _game.endTurn()
+  else
+    takeZeroPrompt 'kind4'
+  return
+
+$('.house').on 'click', ( e ) ->
+  if hasFullHouse()
+    $( e.currentTarget ).attr 'disabled', true
+    _game.houseDone = true
+    _game.house = 25
+    _game.endTurn()
+  else
+    takeZeroPrompt 'house'
+  return
+
+$('.small').on 'click', ( e ) ->
+  if hasSmallStraight()
+    $( e.currentTarget ).attr 'disabled', true
+    _game.smallDone = true
+    _game.small = 30
+    _game.endTurn()
+  else
+    takeZeroPrompt 'small'
+  return
+
+$('.large').on 'click', ( e ) ->
+  if hasLargeStraight()
     $( e.currentTarget ).attr 'disabled', true
     _game.largeDone = true
     _game.large = 40
@@ -148,10 +188,7 @@ $('.chance').on 'click', ( e ) ->
   return
 
 $('.yahtzee').on 'click', ( e ) ->
-  has5kind = diceValueCounts().filter ( val ) ->
-    return val >= 5
-  # console.log has5kind
-  if has5kind.length isnt 0
+  if has5kind()
     $( e.currentTarget ).attr 'disabled', true
     _game.kind5Done = true
     _game.kind5 = 50
