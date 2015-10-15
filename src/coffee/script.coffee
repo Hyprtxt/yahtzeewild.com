@@ -88,7 +88,7 @@ Game = ->
 
 Game::endTurn = ->
   # check turns for gameOver
-  if @turn = 14
+  if @turn is 14
     alert 'Game over, you scored: ' + @score
     _game = new Game()
     _game.render()
