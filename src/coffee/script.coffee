@@ -1,4 +1,7 @@
-$rollDice  = $ '#rollDice'
+$rollDice    = $ '#rollDice'
+$submitScore = $ '#finalize-score'
+$scoreBtns   = $ '.btn-score'
+$rollValue   = $ '#rollValue'
 
 _game = new Game()
 _view = new GameView collection: new DiceCollection dice
@@ -51,7 +54,7 @@ takeZeroPrompt = ( what ) ->
   return
 
 score = ( what, score ) ->
-  $( '.' + what ).attr 'disabled', true
+  $( '.' + what ).attr 'disabled', 'disabled'
   _game[ what + 'Done' ] = true
   _game[ what ] = score
   _game.endTurn()
@@ -96,62 +99,79 @@ hasLargeStraight = ->
     return
   return result
 
-scoreTop = ( e ) ->
-  num = $( e.currentTarget ).data( 'top' )
+scoreTop = ( num ) ->
   return score 'top' + num, sumSingleValue num
 
-$('.top').on 'click', scoreTop
+scoreBottom = ( row ) ->
+  return score row, findScoreBottom( row )
 
-$('.kind3').on 'click', ( e ) ->
+findScoreBottom = ( row ) ->
+  if row is 'kind3'
+    return sumDice()
+  if row is 'kind4'
+    return sumDice()
+  if row is 'house'
+    return 25
+  if row is 'small'
+    return 30
+  if row is 'large'
+    return 40
+  if row is 'kind5'
+    return 50
+  return sumDice()
+
+_enableScores = ( row ) ->
+  $( '.top' ).removeAttr 'disabled', 'disabled'
+  $( '#chance' ).removeAttr 'disabled', 'disabled'
   if hasNkind 3
-    score 'kind3', sumDice()
+    $( '#kind3' ).removeAttr 'disabled', 'disabled'
   else
-    takeZeroPrompt 'kind3'
-  return
-
-$('.kind4').on 'click', ( e ) ->
+    $( '#kind3' ).attr 'disabled', 'disabled'
   if hasNkind 4
-    score 'kind4', sumDice()
+    $( '#kind4' ).removeAttr 'disabled', 'disabled'
   else
-    takeZeroPrompt 'kind4'
-  return
-
-$('.house').on 'click', ( e ) ->
+    $( '#kind4' ).attr 'disabled', 'disabled'
   if hasFullHouse()
-    score 'house', 25
+    $( '#house' ).removeAttr 'disabled', 'disabled'
   else
-    takeZeroPrompt 'house'
-  return
-
-$('.small').on 'click', ( e ) ->
+    $( '#house' ).attr 'disabled', 'disabled'
   if hasSmallStraight()
-    score 'small', 30
+    $( '#small' ).removeAttr 'disabled', 'disabled'
   else
-    takeZeroPrompt 'small'
-  return
-
-$('.large').on 'click', ( e ) ->
+    $( '#small' ).attr 'disabled', 'disabled'
   if hasLargeStraight()
-    score 'large', 40
+    $( '#large' ).removeAttr 'disabled', 'disabled'
   else
-    takeZeroPrompt 'large'
-  return
-
-$('.chance').on 'click', ( e ) ->
-  score 'chance', sumDice()
-  return
-
-$('.yahtzee').on 'click', ( e ) ->
+    $( '#large' ).attr 'disabled', 'disabled'
   if hasNkind 5
-    score 'kind5', 50
+    $( '#kind5' ).removeAttr 'disabled', 'disabled'
   else
-    takeZeroPrompt 'kind5'
+    $( '#kind5' ).attr 'disabled', 'disabled'
+  return
+
+_currentRow = 0
+
+$scoreBtns.on 'click', ( e ) ->
+  _currentRow = $( e.currentTarget ).data 'score'
+  $submitScore.removeAttr 'disabled', 'disabled'
+  if typeof _currentRow is 'number'
+    $rollValue.text sumSingleValue _currentRow
+  else
+    $rollValue.text findScoreBottom _currentRow
+  return
+
+$submitScore.on 'click', ( e ) ->
+  $submitScore.attr 'disabled', 'disabled'
+  if typeof _currentRow is 'number'
+    scoreTop _currentRow
+  else
+    scoreBottom _currentRow
   return
 
 $rollDice.on 'click', ( e ) ->
   _game.roll++
+  _game.render()
   if _game.roll < 4
-    _game.render()
     return _view.rollAll()
   else
     return alert 'nope, take a score'

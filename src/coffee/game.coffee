@@ -59,6 +59,8 @@ Game::getScore = ->
   @kind3 + @kind4 + @house + @small + @large + @chance + @kind5 + @wild
 
 Game::render = ->
+  # if roll is 0, no score event listeners
+  console.log @roll
   $score.text @getScore()
   $roll.text @roll
   $turn.text @turn

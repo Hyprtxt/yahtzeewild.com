@@ -35,6 +35,7 @@ DieView = Backbone.View.extend
       else
         this.model.set 'value', value + 1
     this.render()
+    _enableScores()
     return this
 
 GameView = Backbone.View.extend
@@ -54,6 +55,7 @@ GameView = Backbone.View.extend
       return die.roll()
     , this
     this.render()
+    _enableScores()
     return this
   endTurn: ->
     this.collection.forEach ( die ) ->
