@@ -97,15 +97,19 @@ body > nav
   box-shadow: 0 5px 0 #333
 .wild .die
   border: 2px solid red
-  .fa-circle
-    display: none
+  // .fa-circle
+  //   display: none
   .fa-star
+    color: red
+    z-index: -1
+    position: absolute
     display: block !important
-    top: 1.4rem
-    left: 0.95rem
+    top: 1.5rem
+    left: 1.5rem
+    font-size: 2rem
 .die.value-5
   i:nth-child(3n)
-    left: 1rem
+    left: 0.9rem
   i:nth-child(4n)
     top: 1.4rem
   i:nth-child(1n+6)
@@ -133,6 +137,6 @@ body > nav
 .die.value-1
   i
     top: 1.4rem
-    left: 1rem
+    left: 0.9rem
   i:nth-child(1n+2)
     display: none

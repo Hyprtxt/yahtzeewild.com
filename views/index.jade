@@ -2,39 +2,47 @@ extends ./layout/layout.jade
 
 block content
   h1.m-b Work in progress...
-  //- .row.m-b
+  .row.m-b
     .col-md-2
-      button.btn.btn-block.btn-success-outline 1's
+      button(data-top=1).top.btn.btn-block.btn-success 1's
     .col-md-2
-      button.btn.btn-block.btn-success-outline 2's
+      button(data-top=2).top.btn.btn-block.btn-success 2's
     .col-md-2
-      button.btn.btn-block.btn-success-outline 3's
+      button(data-top=3).top.btn.btn-block.btn-success 3's
     .col-md-2
-      button.btn.btn-block.btn-success-outline 4's
+      button(data-top=4).top.btn.btn-block.btn-success 4's
     .col-md-2
-      button.btn.btn-block.btn-success-outline 5's
+      button(data-top=5).top.btn.btn-block.btn-success 5's
     .col-md-2
-      button.btn.btn-block.btn-success-outline 6's
-  //- .row.m-b
+      button(data-top=6).top.btn.btn-block.btn-success 6's
+
+  .row.m-b
     .col-md-2
-      button.btn.btn-block.btn-success-outline 3 of a Kind
+      button.kind3.btn.btn-block.btn-primary 3 of a Kind
     .col-md-2
-      button.btn.btn-block.btn-success-outline 4 of a Kind
+      button.kind4.btn.btn-block.btn-primary 4 of a Kind
     .col-md-2
-      button.btn.btn-block.btn-success-outline Full House
+      button.house.btn.btn-block.btn-primary Full House
     .col-md-2
-      button.btn.btn-block.btn-success-outline Small Straight
+      button.small.btn.btn-block.btn-primary Small Straight
     .col-md-2
-      button.btn.btn-block.btn-success-outline Large Straight
+      button.large.btn.btn-block.btn-primary Large Straight
     .col-md-2
-      button.btn.btn-block.btn-success-outline Chance
+      button.chance.btn.btn-block.btn-primary Chance
+
   .row.m-b
     #container Loading...
-    //- each num in [0,1,2,3,4]
-    //-   .col-md-2(class='slot-'+num)
+
   .row.m-b
     .col-md-12
+      button.yahtzee.btn.btn-success.pull-right Yahtzee!
       button#roll.btn.btn-primary-outline Roll
+      button.btn.btn-primary Score 
+        span#score 0
+      button.btn.btn-warning Turn 
+        span#turn 0
+      button.btn.btn-danger Roll 
+        span#roll 0
 
   script#dieTemplate(type='text/template')
     .die(class!='value-<%= value %>')
