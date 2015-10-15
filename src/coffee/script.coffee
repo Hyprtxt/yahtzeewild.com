@@ -6,6 +6,13 @@ $roll  = $ '#roll'
 wildFactor = 8
 started = false
 
+Array::unique = ->
+  @reduce ( accum, current ) ->
+    if accum.indexOf( current ) < 0
+      accum.push current
+    accum
+  , []
+
 getRandomInt = ( min, max ) ->
   return Math.floor( Math.random() * ( max - min + 1 ) ) + min
 
@@ -102,7 +109,7 @@ Game::getScore = ->
 
 Game::render = ->
   # check turns for gameOver
-  console.log @roll
+  # console.log @roll
   $score.text @getScore()
   $roll.text @roll
   $turn.text @turn
@@ -111,14 +118,32 @@ Game::render = ->
 _game = new Game()
 _game.render()
 
+getFourSets = ->
+  result = []
+  result.push diceValues().sort().slice 0, 4
+  result.push diceValues().sort().slice 1, 5
+  return result
+
 diceValues = ->
   return _view.collection.models.map ( die ) ->
     return die.get 'value'
 
+diceValueCounts = ->
+  result = []
+  [1..6].forEach ( num ) ->
+    result.push diceValues().reduce ( prev, curr, idx, arr ) ->
+      if curr is num
+        return prev + 1
+      else
+        return prev
+    , 0
+    return
+  return result
+
 scoreTop = ( val ) ->
-  console.log diceValues()
+  # console.log diceValues()
   return diceValues().reduce ( prev, curr, idx, arr ) ->
-    console.log curr, val
+    # console.log curr, val
     if curr is val
       return prev + curr
     else
@@ -140,38 +165,81 @@ $('.top').on 'click', ( e ) ->
   return
 
 $('.kind3').on 'click', ( e ) ->
-  $( e.currentTarget ).attr 'disabled', true
-  _game.kind3Done = true
-  _game.kind3 = sumDice()
-  _game.endTurn()
+  has3kind = diceValueCounts().filter ( val ) ->
+    return val >= 3
+  # console.log has3kind
+  if has3kind.length isnt 0
+    $( e.currentTarget ).attr 'disabled', true
+    _game.kind3Done = true
+    _game.kind3 = sumDice()
+    _game.endTurn()
+  else
+    alert 'no cheating, @todo taking a zero'
   return
 
 $('.kind4').on 'click', ( e ) ->
-  $( e.currentTarget ).attr 'disabled', true
-  _game.kind4Done = true
-  _game.kind4 = sumDice()
-  _game.endTurn()
+  has4kind = diceValueCounts().filter ( val ) ->
+    return val >= 4
+  # console.log has4kind
+  if has4kind.length isnt 0
+    $( e.currentTarget ).attr 'disabled', true
+    _game.kind4Done = true
+    _game.kind4 = sumDice()
+    _game.endTurn()
+  else
+    alert 'no cheating, @todo taking a zero'
   return
 
 $('.house').on 'click', ( e ) ->
-  $( e.currentTarget ).attr 'disabled', true
-  _game.houseDone = true
-  _game.house = 25
-  _game.endTurn()
+  has3kind = diceValueCounts().filter ( val ) ->
+    return val >= 3
+  if has3kind && diceValues().unique().length is 2
+    $( e.currentTarget ).attr 'disabled', true
+    _game.houseDone = true
+    _game.house = 25
+    _game.endTurn()
+  else
+    alert 'no cheating, @todo taking a zero'
   return
 
 $('.small').on 'click', ( e ) ->
-  $( e.currentTarget ).attr 'disabled', true
-  _game.smallDone = true
-  _game.small = 30
-  _game.endTurn()
+  smallStraights = [
+    [1..4]
+    [2..5]
+    [3..6]
+  ]
+  result = false
+  getFourSets().forEach ( set ) ->
+    return smallStraights.forEach ( straight ) ->
+      if JSON.stringify( set ) is JSON.stringify( straight )
+        result = true
+      return
+  if result
+    $( e.currentTarget ).attr 'disabled', true
+    _game.smallDone = true
+    _game.small = 30
+    _game.endTurn()
+  else
+    alert 'no cheating, @todo taking a zero'
   return
 
 $('.large').on 'click', ( e ) ->
-  $( e.currentTarget ).attr 'disabled', true
-  _game.largeDone = true
-  _game.large = 40
-  _game.endTurn()
+  largeStraights = [
+    [1..5]
+    [2..6]
+  ]
+  result = false
+  largeStraights.forEach ( straight ) ->
+    if JSON.stringify( diceValues().sort() ) is JSON.stringify( straight )
+      result = true
+    return
+  if result
+    $( e.currentTarget ).attr 'disabled', true
+    _game.largeDone = true
+    _game.large = 40
+    _game.endTurn()
+  else
+    alert 'no cheating, @todo taking a zero'
   return
 
 $('.chance').on 'click', ( e ) ->
@@ -182,10 +250,16 @@ $('.chance').on 'click', ( e ) ->
   return
 
 $('.yahtzee').on 'click', ( e ) ->
-  $( e.currentTarget ).attr 'disabled', true
-  _game.yahtzeeDone = true
-  _game.yahtzee = 50
-  _game.endTurn()
+  has5kind = diceValueCounts().filter ( val ) ->
+    return val >= 5
+  # console.log has5kind
+  if has5kind.length isnt 0
+    $( e.currentTarget ).attr 'disabled', true
+    _game.kind5Done = true
+    _game.kind5 = 50
+    _game.endTurn()
+  else
+    alert 'no cheating, @todo taking a zero'
   return
 
 DiceCollection = Backbone.Collection.extend
