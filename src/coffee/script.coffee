@@ -1,7 +1,4 @@
 $rollDice  = $ '#rollDice'
-$score     = $ '#score'
-$turn      = $ '#turn'
-$roll      = $ '#roll'
 
 _game = new Game()
 _view = new GameView collection: new DiceCollection dice
@@ -13,15 +10,15 @@ Array::unique = ->
     accum
   , []
 
+diceValues = ->
+  return _view.collection.models.map ( die ) ->
+    return die.get 'value'
+
 getFourSets = ->
   result = []
   result.push diceValues().sort().slice 0, 4
   result.push diceValues().sort().slice 1, 5
   return result
-
-diceValues = ->
-  return _view.collection.models.map ( die ) ->
-    return die.get 'value'
 
 diceValueCounts = ->
   result = []
@@ -35,10 +32,8 @@ diceValueCounts = ->
     return
   return result
 
-scoreTop = ( val ) ->
-  # console.log diceValues()
+sumSingleValue = ( val ) ->
   return diceValues().reduce ( prev, curr, idx, arr ) ->
-    # console.log curr, val
     if curr is val
       return prev + curr
     else
@@ -63,7 +58,7 @@ $('.top').on 'click', ( e ) ->
   $current.attr 'disabled', true
   int = $current.data 'top'
   _game[ 'top' + int + 'Done' ] = true
-  _game[ 'top' + int ] = scoreTop int
+  _game[ 'top' + int ] = sumSingleValue int
   _game.endTurn()
   return
 

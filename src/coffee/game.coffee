@@ -1,3 +1,7 @@
+$score     = $ '#score'
+$turn      = $ '#turn'
+$roll      = $ '#roll'
+
 Game = ->
   @roll       = 0
   @turn       = 1
