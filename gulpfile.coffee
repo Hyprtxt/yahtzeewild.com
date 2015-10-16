@@ -73,7 +73,7 @@ gulp.task 'waitreload', ( cb ) ->
   # letting nodemon restart is a quick lazy fix
   return setTimeout ->
     return cb livereload.reload()
-  , 1500
+  , 2500
 
 gulp.task 'watch', [ 'copystatic', 'copyfont', 'copycss', 'sass', 'copyjs', 'coffee' ], ->
   gulp.watch './src/sass/**/*.sass', [ 'sass' ]

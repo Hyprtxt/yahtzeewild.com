@@ -2,6 +2,13 @@
 
 I made this for my mom!
 
+* Animations Lifted from [Animate.css](https://daneden.github.io/animate.css/)
+* Icons from [Font-Awesome](fortawesome.github.io/Font-Awesome/icons/)
+* Random numbers from [Random JS](https://www.npmjs.com/package/random-js)
+* Pretty Popups from [Vex](http://github.hubspot.com/vex/docs/welcome/)
+* Views & Collections from [Backbone](http://backbonejs.org/)
+* DOM manipulation with [jQuery](http://jquery.com/)
+
 # Hypr Hapi
 
 I can make the things with this, you too!

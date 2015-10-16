@@ -13,8 +13,6 @@ module.exports =
     '/nginx/js/script.js'
   ]
   stylesheets: [
-    '/nginx/css/vex/vex.css'
-    '/nginx/css/vex/vex-theme-flat-attack.css'
     '/nginx/css/style.css'
   ]
   navbarBrand:
