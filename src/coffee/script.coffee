@@ -214,7 +214,9 @@ rollTheDice = ( e ) ->
   _game.roll++
   _game.render()
   if _game.roll < 4
-    return _view.rollAll()
+    _view.rollAll()
+    return $( '.die' ).each ( i, v ) ->
+      return $( v ).addClass 'shake'
   else
     return alert 'nope, take a score'
 

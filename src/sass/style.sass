@@ -72,6 +72,22 @@
 // @import "font-awesome/scss/stacked"
 @import "font-awesome/scss/icons"
 
+@keyframes shake
+  from, to
+    transform: translate3d(0, 0, 0)
+  10%, 30%, 50%, 70%, 90%
+    transform: translate3d(-1rem, 0, 0)
+  20%, 40%, 60%, 80%
+    transform: translate3d(1rem, 0, 0)
+
+.shake
+  animation-name: shake
+  animation-duration: 0.2s
+  animation-fill-mode: both
+
+.held .shake
+  animation-name: none
+  animation-duration: 0s
 
 body > nav
   margin-bottom: 2rem
@@ -107,6 +123,12 @@ body > nav
     top: 1.5rem
     left: 1.5rem
     font-size: 2rem
+.wild .die.shake .fa-star
+  top: 1.4rem
+  left: 0.45rem
+.wild.held .die.shake .fa-star
+  top: 1.5rem !important
+  left: 1.5rem !important
 .hidden .die
   border-color: black
   box-shadow: none
