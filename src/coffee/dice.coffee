@@ -1,10 +1,9 @@
 wildFactor = 8
 
-getRandomInt = ( min, max ) ->
-  return Math.floor( Math.random() * ( max - min + 1 ) ) + min
+Random = new Random()
 
 isWild = ->
-  random = getRandomInt 1, wildFactor
+  random = Random.integer 1, wildFactor
   if random is 1
     return true
   else
@@ -13,7 +12,7 @@ isWild = ->
 Die = Backbone.Model.extend
   defaults:
     held: false
-    value: 1 # getRandomInt 1, 6
+    value: 1 # Random.integer 1, 6
     wild: false # isWild()
     active: false
 
@@ -23,7 +22,7 @@ Die::roll = ->
     @.set 'wild', false
     @.set 'held', false
   if !@.get 'held'
-    @.set 'value', getRandomInt 1, 6
+    @.set 'value', Random.integer 1, 6
     if !@.get 'wild'
       iswild = isWild()
       if iswild
@@ -37,6 +36,6 @@ dice = [1..5].map ( i ) ->
   if bewild
     beheld = true
   return new Die
-    value: getRandomInt 1, 6
+    value: Random.integer 1, 6
     wild: bewild
     held: beheld

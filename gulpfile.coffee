@@ -28,6 +28,8 @@ gulp.task 'copyjs', ->
     .pipe gulp.dest dest + '/js/underscore'
   gulp.src './bower_components/backbone/**.js'
     .pipe gulp.dest dest + '/js/backbone'
+  gulp.src './bower_components/random/lib/**.js'
+    .pipe gulp.dest dest + '/js/random'
   return gulp.src './bower_components/jquery/dist/*'
     .pipe gulp.dest dest + '/js/jquery'
 
