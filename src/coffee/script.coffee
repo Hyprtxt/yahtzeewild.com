@@ -6,6 +6,9 @@ $rollValue   = $ '#rollValue'
 _game = new Game()
 _view = new GameView collection: new DiceCollection dice
 
+_kind5Disabled = false
+_currentRow = 0
+
 Array::unique = ->
   return @reduce ( accum, current ) ->
     if accum.indexOf( current ) < 0
@@ -155,6 +158,7 @@ findScoreBottom = ( row ) ->
       else
         return 50
     else
+      _kind5Disabled = true
       return 0
   return sumDice()
 
@@ -183,11 +187,9 @@ _enableScores = ( row ) ->
     $( '#large' ).removeAttr 'disabled'
   if !_game.chanceDone
     $( '#chance' ).removeAttr 'disabled'
-  if !_game.kind5Done
+  if !_kind5Disabled
     $( '#kind5' ).removeAttr 'disabled'
   return
-
-_currentRow = 0
 
 previewScore = ( e ) ->
   _currentRow = $( e.currentTarget ).data 'score'
