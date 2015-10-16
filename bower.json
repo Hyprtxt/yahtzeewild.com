@@ -19,6 +19,7 @@
     "bootstrap": "v4-dev",
     "font-awesome": "~4.4.0",
     "backbone": "~1.2.3",
-    "random": "~1.0.8"
+    "random": "~1.0.8",
+    "vex": "~2.3.2"
   }
 }

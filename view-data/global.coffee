@@ -5,12 +5,16 @@ module.exports =
     '/nginx/js/underscore/underscore-min.js'
     '/nginx/js/backbone/backbone-min.js'
     '/nginx/js/random/random.min.js'
+    '/nginx/js/vex/vex.min.js'
+    '/nginx/js/vex/vex.dialog.min.js'
     '/nginx/js/dice.js'
     '/nginx/js/backbone.js'
     '/nginx/js/game.js'
     '/nginx/js/script.js'
   ]
   stylesheets: [
+    '/nginx/css/vex/vex.css'
+    '/nginx/css/vex/vex-theme-flat-attack.css'
     '/nginx/css/style.css'
   ]
   navbarBrand:

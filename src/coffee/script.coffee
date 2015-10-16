@@ -6,6 +6,8 @@ $rollValue   = $ '#rollValue'
 _game = new Game()
 _view = new GameView collection: new DiceCollection dice
 
+vex.defaultOptions.className = 'vex-theme-flat-attack'
+
 _kind5Disabled = false
 _currentRow = 0
 
@@ -220,6 +222,6 @@ rollTheDice = ( e ) ->
     return $( '.die' ).each ( i, v ) ->
       return $( v ).addClass 'shake'
   else
-    return alert 'nope, take a score'
+    return vex.dialog.alert 'You\'ve already had 3 rolls, pick a score'
 
 $rollDice.on 'click', rollTheDice

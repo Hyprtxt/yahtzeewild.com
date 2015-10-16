@@ -41,7 +41,7 @@ Game::endTurn = ->
   @turn = @turn + 1
   # check turns for gameOver
   if ( @turn + @bonusTurns ) is 14
-    alert 'Game over, you scored: ' + @getScore()
+    vex.dialog.alert 'Game over, you scored: ' + @getScore()
     _game = new Game()
   @roll = 0
   @bonusCheck()
