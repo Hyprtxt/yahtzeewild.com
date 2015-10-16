@@ -20,8 +20,21 @@ diceValues = ->
 
 getFourSets = ->
   result = []
-  result.push diceValues().sort().slice 0, 4
-  result.push diceValues().sort().slice 1, 5
+  result.push diceValues().sort().filter ( element, idx ) ->
+    if idx isnt 0
+      return element
+  result.push diceValues().sort().filter ( element, idx ) ->
+    if idx isnt 1
+      return element
+  result.push diceValues().sort().filter ( element, idx ) ->
+    if idx isnt 2
+      return element
+  result.push diceValues().sort().filter ( element, idx ) ->
+    if idx isnt 3
+      return element
+  result.push diceValues().sort().filter ( element, idx ) ->
+    if idx isnt 4
+      return element
   return result
 
 diceValueCounts = ->
@@ -72,7 +85,7 @@ hasNkind = ( num ) ->
     return false
 
 hasFullHouse = ->
-  if hasNkind( 3 ) && diceValues().unique().length is 2
+  if hasNkind( 3 ) && diceValues().unique().length is 2 && !hasNkind( 4 )
     return true
   else
     return false
