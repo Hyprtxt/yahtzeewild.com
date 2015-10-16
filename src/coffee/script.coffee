@@ -2,16 +2,15 @@ $rollDice    = $ '#rollDice'
 $submitScore = $ '#finalize-score'
 $scoreBtns   = $ '.btn-score'
 $rollValue   = $ '#rollValue'
-$scoreZero   = $ '#score-zero'
 
 _game = new Game()
 _view = new GameView collection: new DiceCollection dice
 
 Array::unique = ->
-  @reduce ( accum, current ) ->
+  return @reduce ( accum, current ) ->
     if accum.indexOf( current ) < 0
       accum.push current
-    accum
+    return accum
   , []
 
 diceValues = ->
@@ -124,75 +123,42 @@ scoreBottom = ( row ) ->
 
 findScoreBottom = ( row ) ->
   if row is 'kind3'
-    return sumDice()
+    if hasNkind 3
+      return sumDice()
+    else
+      return 0
   if row is 'kind4'
-    return sumDice()
+    if hasNkind 4
+      return sumDice()
+    else
+      return 0
   if row is 'house'
-    return 25
+    if hasFullHouse()
+      return 25
+    else
+      return 0
   if row is 'small'
-    return 30
+    if hasSmallStraight()
+      return 30
+    else
+      return 0
   if row is 'large'
-    return 40
+    if hasLargeStraight()
+      return 40
+    else
+      return 0
   if row is 'kind5'
-    return 50
+    if hasNkind 5
+      if _game.kind5Done
+        _game.bonusTurns++
+        return 100
+      else
+        return 50
+    else
+      return 0
   return sumDice()
 
 _enableScores = ( row ) ->
-  if !_game.top1Done
-    $( '#top1' ).removeAttr 'disabled'
-  if !_game.top2Done
-    $( '#top2' ).removeAttr 'disabled'
-  if !_game.top3Done
-    $( '#top3' ).removeAttr 'disabled'
-  if !_game.top4Done
-    $( '#top4' ).removeAttr 'disabled'
-  if !_game.top5Done
-    $( '#top5' ).removeAttr 'disabled'
-  if !_game.top6Done
-    $( '#top6' ).removeAttr 'disabled'
-  if !_game.kind3Done
-    if hasNkind 3
-      $( '#kind3' ).removeAttr 'disabled'
-    else
-      $( '#kind3' ).attr 'disabled', 'disabled'
-  if !_game.kind4Done
-    if hasNkind 4
-      $( '#kind4' ).removeAttr 'disabled'
-    else
-      $( '#kind4' ).attr 'disabled', 'disabled'
-  if !_game.houseDone
-    if hasFullHouse()
-      $( '#house' ).removeAttr 'disabled'
-    else
-      $( '#house' ).attr 'disabled', 'disabled'
-  if !_game.smallDone
-    if hasSmallStraight()
-      $( '#small' ).removeAttr 'disabled'
-    else
-      $( '#small' ).attr 'disabled', 'disabled'
-  if !_game.largeDone
-    if hasLargeStraight()
-      $( '#large' ).removeAttr 'disabled'
-    else
-      $( '#large' ).attr 'disabled', 'disabled'
-  if !_game.chanceDone
-    $( '#chance' ).removeAttr 'disabled'
-  if !_game.kind5Done
-    if hasNkind 5
-      $( '#kind5' ).removeAttr 'disabled'
-    else
-      $( '#kind5' ).attr 'disabled', 'disabled'
-  return
-
-_currentRow = 0
-
-$scoreZero.on 'click', ( e ) ->
-  $scoreBtns.attr 'disabled', 'disabled'
-  $scoreBtns.off 'click'
-  $scoreBtns.on 'click', ( e ) ->
-    score $( e.currentTarget ).data( 'score' ), 0
-    return
-  $submitScore.attr 'disabled', 'disabled'
   if !_game.top1Done
     $( '#top1' ).removeAttr 'disabled'
   if !_game.top2Done
@@ -221,6 +187,8 @@ $scoreZero.on 'click', ( e ) ->
     $( '#kind5' ).removeAttr 'disabled'
   return
 
+_currentRow = 0
+
 previewScore = ( e ) ->
   _currentRow = $( e.currentTarget ).data 'score'
   $submitScore.removeAttr 'disabled'
@@ -239,7 +207,7 @@ submitScore = ( e ) ->
     scoreBottom _currentRow
   return
 
-$rollDice.on 'click', ( e ) ->
+rollTheDice = ( e ) ->
   if _game.roll is 0
     $scoreBtns.on 'click', previewScore
     $submitScore.on 'click', submitScore
@@ -249,3 +217,5 @@ $rollDice.on 'click', ( e ) ->
     return _view.rollAll()
   else
     return alert 'nope, take a score'
+
+$rollDice.on 'click', rollTheDice

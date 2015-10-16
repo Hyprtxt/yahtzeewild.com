@@ -1,5 +1,5 @@
 module.exports =
-  title: 'Yahtzee Wild | Hyprtxt'
+  title: 'Wild Yacht Dice | Hyprtxt'
   javascripts: [
     '/nginx/js/jquery/jquery.min.js'
     '/nginx/js/underscore/underscore-min.js'
@@ -13,7 +13,7 @@ module.exports =
     '/nginx/css/style.css'
   ]
   navbarBrand:
-    title: 'Yahtzee Wild'
+    title: 'Wild Yacht Dice'
     link: '/'
   navigation: [
     # title: 'A Link'

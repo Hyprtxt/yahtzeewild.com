@@ -1,7 +1,6 @@
-# Yahtzee Wild
+# Wild Yacht Dice
 
-* 4 vs 1 full house
-* How to take a zero for score
+I made this for my mom!
 
 # Hypr Hapi
 

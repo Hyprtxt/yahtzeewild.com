@@ -5,6 +5,7 @@ $roll      = $ '#roll'
 Game = ->
   @roll       = 0
   @turn       = 1
+  @bonusTurns = 0
   @top1       = 0
   @top1Done   = false
   @top2       = 0
@@ -39,7 +40,7 @@ Game = ->
 Game::endTurn = ->
   @turn = @turn + 1
   # check turns for gameOver
-  if @turn is 14
+  if ( @turn + @bonusTurns ) is 14
     alert 'Game over, you scored: ' + @getScore()
     _game = new Game()
   @roll = 0
